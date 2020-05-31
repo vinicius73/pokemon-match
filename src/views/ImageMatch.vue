@@ -2,13 +2,13 @@
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
 import Vue from 'vue'
 import { sampleSize, shuffle, sample, debounce } from 'lodash-es'
-import PokemonImage from '@/components/PokemonImage.vue'
+import PokemonCard from '@/components/PokemonCard.vue'
 import ScoreBar from '@/components/ScoreBar.vue'
 import list from '@/assets/pokemon.json'
 
 export default Vue.extend({
-  name: 'Home',
-  components: { PokemonImage, ScoreBar },
+  name: 'ImageMatch',
+  components: { PokemonCard, ScoreBar },
   data () {
     return {
       score: 0,
@@ -78,7 +78,7 @@ export default Vue.extend({
 <template>
   <v-row dense>
     <v-col cols="12">
-      <PokemonImage
+      <PokemonCard
         ref="currentPokemon"
         :color="resultColor"
         :pokemon="pokemon"
@@ -87,7 +87,7 @@ export default Vue.extend({
           <v-card-text v-if="hasResult">
             {{ result ?  'Congratulations!' : 'Try Again ;)' }}
           </v-card-text>
-        </PokemonImage>
+        </PokemonCard>
     </v-col>
     <v-col>
       <v-row>
@@ -96,7 +96,7 @@ export default Vue.extend({
           sm="12"
           v-for="id in options"
           :key="`option-${id}`">
-          <PokemonImage
+          <PokemonCard
             @click="select(id)"
             :pokemon="id"
             showName visible />

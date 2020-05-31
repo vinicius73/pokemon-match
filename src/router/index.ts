@@ -6,8 +6,12 @@ Vue.use(VueRouter)
 const routes: Array<RouteConfig> = [
   {
     path: '/',
-    name: 'Home',
-    component: () => import(/* webpackChunkName: "home" */ '../views/Home.vue')
+    redirect: '/image-match'
+  },
+  {
+    path: '/image-match',
+    name: 'ImageMatch',
+    component: () => import(/* webpackChunkName: "image-match" */ '../views/ImageMatch.vue')
   }
 ]
 
