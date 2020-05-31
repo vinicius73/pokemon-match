@@ -24,7 +24,7 @@ export default Vue.extend({
       return this.result !== null
     },
     isMobile (): boolean {
-      return this.$vuetify.breakpoint.sm
+      return this.$vuetify.breakpoint.smAndDown
     },
     resultColor (): string | null {
       if (this.hasResult) {
