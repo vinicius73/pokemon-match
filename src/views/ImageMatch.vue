@@ -1,10 +1,12 @@
 <script lang="ts">
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
 import Vue from 'vue'
-import { sampleSize, shuffle, sample, debounce } from 'lodash-es'
+import { sampleSize, shuffle, sample, debounce, noop } from 'lodash-es'
+import { mapState } from 'vuex'
 import PokemonCard from '@/components/PokemonCard.vue'
 import ScoreBar from '@/components/ScoreBar.vue'
 import list from '@/assets/pokemon.json'
+import { speak } from '@/plugins/speech-synthesis'
 
 export default Vue.extend({
   name: 'ImageMatch',
@@ -17,8 +19,12 @@ export default Vue.extend({
     }
   },
   computed: {
+    ...mapState(['speechSynthesis']),
     hasResult (): boolean {
       return this.result !== null
+    },
+    isMobile (): boolean {
+      return this.$vuetify.breakpoint.sm
     },
     resultColor (): string | null {
       if (this.hasResult) {
@@ -32,7 +38,7 @@ export default Vue.extend({
     options (): string[] {
       return shuffle([
         this.pokemon,
-        ...sampleSize(list, 3)
+        ...sampleSize(list, this.isMobile ? 2 : 3)
       ])
     }
   },
@@ -62,6 +68,11 @@ export default Vue.extend({
     select (id: string) {
       if (this.hasResult) {
         return
+      }
+
+      if (this.speechSynthesis) {
+        speak(this.pokemon)
+          .then(noop, console.warn)
       }
 
       this.result = id === this.pokemon

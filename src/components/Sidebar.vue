@@ -1,9 +1,17 @@
 <script lang="ts">
 import Vue from 'vue'
+import { mapState, mapMutations } from 'vuex'
 
 export default Vue.extend({
+  name: 'Sidebar',
   props: {
     value: Boolean
+  },
+  computed: {
+    ...mapState(['speechSynthesis'])
+  },
+  methods: {
+    ...mapMutations(['setSpeechSynthesis'])
   }
 })
 </script>
@@ -36,5 +44,16 @@ export default Vue.extend({
         <v-list-item-title>Image Match</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
+
+    <template v-slot:append>
+      <div class="pa-2">
+        <v-switch
+          :value="speechSynthesis"
+          @change="setSpeechSynthesis"
+          append-icon="mdi-text-to-speech"
+          class="ma-2"
+          label="Pokémon names?"></v-switch>
+      </div>
+    </template>
   </v-navigation-drawer>
 </template>
