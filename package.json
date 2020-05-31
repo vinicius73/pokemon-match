@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
-    "material-design-icons-iconfont": "^5.0.1",
+    "lodash-es": "^4.17.15",
     "register-service-worker": "^1.7.1",
     "roboto-fontface": "*",
     "vue": "^2.6.11",
@@ -18,6 +18,8 @@
     "vuex": "^3.4.0"
   },
   "devDependencies": {
+    "@mdi/font": "^5.3.45",
+    "@types/lodash-es": "^4.17.3",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
     "@vue/cli-plugin-babel": "~4.4.0",

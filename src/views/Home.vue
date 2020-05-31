@@ -1,18 +1,107 @@
-<template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
-</template>
+<script lang="ts">
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
+import Vue from 'vue'
+import { sampleSize, shuffle, sample, debounce } from 'lodash-es'
+import PokemonImage from '@/components/PokemonImage.vue'
+import ScoreBar from '@/components/ScoreBar.vue'
+import list from '@/assets/pokemon.json'
 
-<script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
-export default {
+export default Vue.extend({
   name: 'Home',
-  components: {
-    HelloWorld
+  components: { PokemonImage, ScoreBar },
+  data () {
+    return {
+      score: 0,
+      result: null as boolean | null,
+      pokemon: sample(list) as string
+    }
+  },
+  computed: {
+    hasResult (): boolean {
+      return this.result !== null
+    },
+    resultColor (): string | null {
+      if (this.hasResult) {
+        return this.result
+          ? 'success'
+          : 'error'
+      }
+
+      return null
+    },
+    options (): string[] {
+      return shuffle([
+        this.pokemon,
+        ...sampleSize(list, 3)
+      ])
+    }
+  },
+  watch: {
+    result (val) {
+      if (val === null) {
+        return
+      }
+
+      this.score = val
+        ? this.score + 1
+        : 0
+    }
+  },
+  methods: {
+    next: debounce(function () {
+      // @ts-ignore
+      this.result = null
+      // @ts-ignore
+      this.$nextTick(() => {
+        // @ts-ignore
+        this.pokemon = sample(list) as string
+        // @ts-ignore
+        this.$vuetify.goTo(0)
+      })
+    }, 4000),
+    select (id: string) {
+      if (this.hasResult) {
+        return
+      }
+
+      this.result = id === this.pokemon
+      this.$nextTick(() => {
+        // @ts-ignore
+        this.$vuetify.goTo(0)
+        this.next()
+      })
+    }
   }
-}
+})
 </script>
+
+<template>
+  <v-row dense>
+    <v-col cols="12">
+      <PokemonImage
+        ref="currentPokemon"
+        :color="resultColor"
+        :pokemon="pokemon"
+        :visible="hasResult">
+          <ScoreBar :hits="score" slot="top" />
+          <v-card-text v-if="hasResult">
+            {{ result ?  'Congratulations!' : 'Try Again ;)' }}
+          </v-card-text>
+        </PokemonImage>
+    </v-col>
+    <v-col>
+      <v-row>
+        <v-col
+          md="6"
+          sm="12"
+          v-for="id in options"
+          :key="`option-${id}`">
+          <PokemonImage
+            @click="select(id)"
+            :pokemon="id"
+            showName visible />
+        </v-col>
+      </v-row>
+    </v-col>
+  </v-row>
+</template>
