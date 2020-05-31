@@ -93,6 +93,7 @@ export default Vue.extend({
         ref="currentPokemon"
         :color="resultColor"
         :pokemon="pokemon"
+        :shake="hasResult"
         :visible="hasResult">
           <ScoreBar :hits="score" slot="top" />
           <v-card-text v-if="hasResult">
@@ -105,8 +106,8 @@ export default Vue.extend({
         <v-col
           md="6"
           sm="12"
-          v-for="id in options"
-          :key="`option-${id}`">
+          v-for="(id, index) in options"
+          :key="`option-${id}-${index}`">
           <PokemonCard
             @click="select(id)"
             :pokemon="id"

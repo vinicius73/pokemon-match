@@ -5,6 +5,7 @@ const CDN = 'https://images.weserv.nl/?url=img.pokemondb.net'
 export default Vue.extend({
   name: 'PokemonImage',
   props: {
+    shake: Boolean,
     pokemon: String,
     artwork: Boolean,
     showName: Boolean,
@@ -50,6 +51,7 @@ export default Vue.extend({
   <v-card
       class="pokemon-card"
       v-on="$listeners"
+      :class="{ shake }"
       :color="cardColor"
       :dark="visible">
     <div>
@@ -88,5 +90,9 @@ export default Vue.extend({
 }
 .pokemon-card {
   transition: background-color 0.5s ease;
+  animation-duration: 1s;
+}
+.pokemon-card.shake {
+  animation-name: shake;
 }
 </style>
