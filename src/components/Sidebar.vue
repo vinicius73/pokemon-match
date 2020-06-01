@@ -20,7 +20,8 @@ export default Vue.extend({
   <v-navigation-drawer
       :value="value"
       @input="$listeners.input"
-      absolute
+      clipped
+      fixed
       temporary
     >
     <v-list-item>
@@ -45,15 +46,13 @@ export default Vue.extend({
       </v-list-item-content>
     </v-list-item>
 
-    <template v-slot:append>
-      <div class="pa-2">
-        <v-switch
-          :value="speechSynthesis"
-          @change="setSpeechSynthesis"
-          append-icon="mdi-text-to-speech"
-          class="ma-2"
-          label="Pokémon names?"></v-switch>
-      </div>
-    </template>
+    <div slot="append">
+      <v-switch
+        :value="speechSynthesis"
+        @change="setSpeechSynthesis"
+        append-icon="mdi-text-to-speech"
+        class="ma-2"
+        label="Pokémon names?"></v-switch>
+    </div>
   </v-navigation-drawer>
 </template>

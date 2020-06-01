@@ -18,6 +18,7 @@ export default Vue.extend({
 
 <template>
   <v-app>
+    <Sidebar v-model="sidebar" />
     <v-app-bar
       app
       color="primary"
@@ -36,7 +37,6 @@ export default Vue.extend({
         width="40"
       />
     </v-app-bar>
-    <Sidebar v-model="sidebar" />
     <v-content>
       <div class="pa-2">
         <slot />
