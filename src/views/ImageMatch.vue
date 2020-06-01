@@ -23,9 +23,6 @@ export default Vue.extend({
     hasResult (): boolean {
       return this.result !== null
     },
-    isMobile (): boolean {
-      return this.$vuetify.breakpoint.smAndDown
-    },
     resultColor (): string | null {
       if (this.hasResult) {
         return this.result
@@ -35,10 +32,13 @@ export default Vue.extend({
 
       return null
     },
+    optionsSize (): number {
+      return this.$vuetify.breakpoint.xs ? 3 : 4
+    },
     options (): string[] {
       return shuffle([
         this.pokemon,
-        ...sampleSize(list, this.isMobile ? 2 : 3)
+        ...sampleSize(list, this.optionsSize - 1)
       ])
     }
   },
@@ -104,8 +104,9 @@ export default Vue.extend({
     <v-col>
       <v-row>
         <v-col
+          cols="12"
           md="6"
-          sm="12"
+          sm="6"
           v-for="(id, index) in options"
           :key="`option-${id}-${index}`">
           <PokemonCard
