@@ -3,14 +3,15 @@
 import Vue from 'vue'
 import { sampleSize, shuffle, sample, debounce, noop } from 'lodash-es'
 import { mapState } from 'vuex'
+import { speak } from '@/plugins/speech-synthesis'
+import ProgressBar from '@/components/ProgressBar.vue'
 import PokemonCard from '@/components/PokemonCard.vue'
 import ScoreBar from '@/components/ScoreBar.vue'
 import list from '@/assets/pokemon.json'
-import { speak } from '@/plugins/speech-synthesis'
 
 export default Vue.extend({
   name: 'ImageMatch',
-  components: { PokemonCard, ScoreBar },
+  components: { PokemonCard, ScoreBar, ProgressBar },
   data () {
     return {
       score: 0,
@@ -64,7 +65,7 @@ export default Vue.extend({
         // @ts-ignore
         this.$vuetify.goTo(0)
       })
-    }, 4000),
+    }, 3500),
     select (id: string) {
       if (this.hasResult) {
         return
@@ -95,6 +96,7 @@ export default Vue.extend({
         :pokemon="pokemon"
         :shake="hasResult"
         :visible="hasResult">
+          <ProgressBar :active="hasResult" slot="top" />
           <ScoreBar :hits="score" slot="top" />
           <v-card-text v-if="hasResult">
             {{ result ?  'Congratulations!' : 'Try Again ;)' }}
