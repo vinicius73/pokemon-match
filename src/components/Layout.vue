@@ -1,10 +1,11 @@
 <script lang="ts">
 import Vue from 'vue'
 import Sidebar from './Sidebar.vue'
+import AppFooter from './AppFooter.vue'
 
 export default Vue.extend({
   name: 'Layout',
-  components: { Sidebar },
+  components: { Sidebar, AppFooter },
   data: () => ({
     sidebar: false
   }),
@@ -42,5 +43,6 @@ export default Vue.extend({
         <slot />
       </div>
     </v-content>
+    <AppFooter />
   </v-app>
 </template>
