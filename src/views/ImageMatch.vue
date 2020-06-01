@@ -96,8 +96,8 @@ export default Vue.extend({
         :pokemon="pokemon"
         :shake="hasResult"
         :visible="hasResult">
-          <ProgressBar :active="hasResult" slot="top" />
           <ScoreBar :hits="score" slot="top" />
+          <ProgressBar :active="hasResult" slot="top" />
           <v-card-text v-if="hasResult">
             {{ result ?  'Congratulations!' : 'Try Again ;)' }}
           </v-card-text>
