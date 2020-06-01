@@ -35,7 +35,7 @@ export default Vue.extend({
     title () {
       return this.visible
         ? this.pokemon
-        : 'Who\'s that Pokemon?'
+        : 'Who\'s that Pokémon?'
     },
     src (): string {
       const { artwork, pokemon } = this
