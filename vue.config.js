@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+const pkg = require('./package.json')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
+
+process.env.VUE_APP_VERSION = pkg.version
 
 module.exports = {
   transpileDependencies: [

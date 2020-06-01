@@ -4,6 +4,9 @@ import { mapState, mapMutations } from 'vuex'
 
 export default Vue.extend({
   name: 'Sidebar',
+  data: () => ({
+    version: process.env.VUE_APP_VERSION
+  }),
   props: {
     value: Boolean
   },
@@ -33,6 +36,11 @@ export default Vue.extend({
       <v-list-item-content>
         <v-list-item-title>Pokémon Match</v-list-item-title>
       </v-list-item-content>
+      <v-list-item-action>
+        <v-list-item-action-text>
+          {{ version }}
+        </v-list-item-action-text>
+      </v-list-item-action>
     </v-list-item>
 
     <v-divider></v-divider>
