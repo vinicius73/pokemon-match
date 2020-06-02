@@ -2,7 +2,12 @@
 import MatchGame from '@/mixins/match-game'
 
 export default MatchGame.extend({
-  name: 'ImageMatch'
+  name: 'NameMatch',
+  computed: {
+    optionsSize () {
+      return 4
+    }
+  }
 })
 </script>
 
@@ -16,8 +21,8 @@ export default MatchGame.extend({
         :shake="hasResult"
         :visible="hasResult">
           <ScoreBar
-            name="IMAGE_MATCH"
-            title="Image Match"
+            name="NAME_MATCH"
+            title="Name Match"
             :hits="score" slot="top" />
           <ProgressBar :active="hasResult" slot="top" />
           <v-card-text v-if="hasResult">
@@ -33,10 +38,13 @@ export default MatchGame.extend({
           sm="6"
           v-for="(id, index) in options"
           :key="`option-${id}-${index}`">
-          <PokemonCard
+          <v-card dark
             @click="select(id)"
-            :pokemon="id"
-            showName visible />
+            color="info">
+            <v-card-title
+              class="headline"
+              v-text="id" />
+          </v-card>
         </v-col>
       </v-row>
     </v-col>

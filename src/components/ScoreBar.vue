@@ -1,25 +1,29 @@
 <script lang="ts">
 import Vue from 'vue'
 
-const KEY = 'IMAGE_MATCH:MAX_SCORE'
+const KEY = ':MAX_SCORE'
 
-const setMax = (val: number) => {
-  localStorage.setItem(KEY, String(val))
+const setMax = (game: string, val: number) => {
+  localStorage.setItem(`${game}:${KEY}`, String(val))
 }
 
-const getMax = (): number => {
-  const val = localStorage.getItem(KEY)
+const getMax = (game: string): number => {
+  const val = localStorage.getItem(`${game}:${KEY}`)
   return Number(val || 0)
 }
 
 export default Vue.extend({
   name: 'ScoreBar',
   props: {
-    hits: Number
+    hits: Number,
+    name: String,
+    title: String
   },
-  data: () => ({
-    max: getMax()
-  }),
+  data () {
+    return {
+      max: getMax(this.name)
+    }
+  },
   watch: {
     hits (val) {
       if (val > this.max) {
@@ -30,7 +34,7 @@ export default Vue.extend({
   methods: {
     setMax (val: number) {
       this.max = val
-      setMax(val)
+      setMax(this.name, val)
     }
   }
 })
@@ -50,6 +54,8 @@ export default Vue.extend({
       </v-avatar>
       Score
     </v-chip>
+    <v-spacer></v-spacer>
+    {{ title }}
     <v-spacer></v-spacer>
     <v-chip
       class="ma-2"
