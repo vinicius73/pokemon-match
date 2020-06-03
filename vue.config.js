@@ -42,6 +42,7 @@ module.exports = {
     msTileColor: '#b72c3d',
     appleMobileWebAppCapable: 'yes',
     appleMobileWebAppStatusBarStyle: 'black',
+    assetsVersion: pkg.version,
     manifestOptions: {
       short_name: 'Pokémon Match'
     },
