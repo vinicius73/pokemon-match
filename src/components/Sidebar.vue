@@ -11,7 +11,7 @@ export default Vue.extend({
     value: Boolean
   },
   computed: {
-    ...mapState(['speechSynthesis'])
+    ...mapState(['speechSynthesis', 'hasSynthesisSupport'])
   },
   methods: {
     ...mapMutations(['setSpeechSynthesis'])
@@ -63,7 +63,7 @@ export default Vue.extend({
       </v-list-item-content>
     </v-list-item>
 
-    <div slot="append">
+    <div slot="append" v-if="hasSynthesisSupport">
       <v-switch
         :value="speechSynthesis"
         @change="setSpeechSynthesis"

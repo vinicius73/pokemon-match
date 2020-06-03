@@ -1,8 +1,17 @@
 const synth = window.speechSynthesis
 
+const hasSupport = (): boolean => {
+  return synth !== undefined && synth.getVoices().length > 0
+}
+
 const speak = async (text: string): Promise<void> => {
   if (!synth) {
     console.warn('no speechSynthesis')
+    return
+  }
+
+  if (synth.pending) {
+    console.warn('speechSynthesis.pending')
     return
   }
 
@@ -30,4 +39,4 @@ const speak = async (text: string): Promise<void> => {
   })
 }
 
-export { speak }
+export { speak, hasSupport }

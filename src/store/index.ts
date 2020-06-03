@@ -1,17 +1,22 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import sw from './sw.plugin'
+import synthesis from './speech-synthesis.plugin'
 import { PokeMatchState } from './types'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store<PokeMatchState>({
   state: {
+    hasSynthesisSupport: false,
     speechSynthesis: false,
     hasUpdate: false,
     SWReady: false
   },
   mutations: {
+    setHasSynthesisSupport (state, val) {
+      state.hasSynthesisSupport = !!val
+    },
     setSpeechSynthesis (state, val) {
       state.speechSynthesis = !!val
     },
@@ -26,5 +31,5 @@ export default new Vuex.Store<PokeMatchState>({
   },
   modules: {
   },
-  plugins: [sw]
+  plugins: [sw, synthesis]
 })
