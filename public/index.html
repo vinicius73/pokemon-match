@@ -7,11 +7,28 @@
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title>Pokémon Match - Game Collection</title>
   </head>
-  <body>
+  <body class="waiting-ready">
     <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+      <div class="noscript-container">
+        <h2>Enable your JavaScript.</h2>
+        <p>
+          We're sorry but Pokémon Match doesn't work properly without JavaScript enabled. <br>
+          Please enable it to continue.
+        </p>
+        <p>
+          <a href="https://github.com/vinicius73/pokemon-match" target="_blank" rel="noopener noreferrer">
+            @vinicius73/pokemon-match
+          </a>
+        </p>
+      </div>
     </noscript>
-    <div id="app"></div>
+    <div id="app">
+      <div class="pokeball-container">
+        <div class="pokeball">
+          <div class="pokeball__button"></div>
+        </div>
+      </div>
+    </div>
     <!-- built files will be auto injected -->
   </body>
 </html>

@@ -5,5 +5,5 @@ import { hasSupport } from '@/plugins/speech-synthesis'
 export default (store: Store<PokeMatchState>) => {
   setTimeout(() => {
     store.commit('setHasSynthesisSupport', hasSupport())
-  }, 4000)
+  }, 8000)
 }
