@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 /* eslint-disable @typescript-eslint/no-var-requires */
 const pkg = require('./package.json')
 
@@ -32,6 +33,21 @@ module.exports = {
           }
         }
       }
+    }
+  },
+  pwa: {
+    name: 'Pokémon Match - Game Collection',
+    themeColor: '#b72c3d',
+    msTileColor: '#b72c3d',
+    appleMobileWebAppCapable: 'yes',
+    appleMobileWebAppStatusBarStyle: 'black',
+    manifestOptions: {
+      short_name: 'Pokémon Match'
+    },
+    workboxOptions: {
+      cacheId: `${pkg.name}@${pkg.version}`,
+      clientsClaim: true,
+      exclude: /_redirects/
     }
   }
 }
