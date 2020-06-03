@@ -2,10 +2,11 @@
 import Vue from 'vue'
 import Sidebar from './Sidebar.vue'
 import AppFooter from './AppFooter.vue'
+import UpdateNotify from './UpdateNotify.vue'
 
 export default Vue.extend({
   name: 'Layout',
-  components: { Sidebar, AppFooter },
+  components: { Sidebar, AppFooter, UpdateNotify },
   data: () => ({
     sidebar: false
   }),
@@ -39,6 +40,7 @@ export default Vue.extend({
       />
     </v-app-bar>
     <v-content>
+      <UpdateNotify />
       <div class="pa-2">
         <slot />
       </div>

@@ -12,11 +12,7 @@ export default Vue.extend({
   name: 'App',
   components: {
     Layout
-  },
-
-  data: () => ({
-    //
-  })
+  }
 })
 </script>
 
