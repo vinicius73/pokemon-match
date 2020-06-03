@@ -48,7 +48,7 @@ module.exports = {
     workboxOptions: {
       cacheId: `${pkg.name}@${pkg.version}`,
       clientsClaim: true,
-      exclude: /_redirects/,
+      exclude: /(_redirects|_headers)/,
       importScripts: [
         '/sw.cache.js'
       ]
