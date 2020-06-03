@@ -3,7 +3,7 @@
 
 import { register } from 'register-service-worker'
 
-const dispatchEvent = (name: string, timeout = 8000, meta?: unknown) => {
+const dispatchEvent = (name: string, meta?: unknown, timeout = 8000) => {
   setTimeout(() => {
     const event = new Event(name)
 
@@ -18,15 +18,16 @@ const dispatchEvent = (name: string, timeout = 8000, meta?: unknown) => {
 
 if (process.env.NODE_ENV === 'production') {
   register(`${process.env.BASE_URL}service-worker.js`, {
-    ready () {
-      dispatchEvent('sw:ready')
-      dispatchEvent('sw:ready', 0)
+    ready (sw) {
+      dispatchEvent('sw:ready', { sw })
+      dispatchEvent('sw:ready', { sw }, 0)
     },
     registered () {
       console.log('Service worker has been registered.')
     },
-    cached () {
-      console.log('Content has been cached for offline use.')
+    cached (sw) {
+      dispatchEvent('sw:cached', { sw })
+      dispatchEvent('sw:cached', { sw }, 0)
     },
     updatefound () {
       console.log('New content is downloading.')
@@ -34,7 +35,7 @@ if (process.env.NODE_ENV === 'production') {
     updated () {
       console.log('New content is available; please refresh.')
       dispatchEvent('sw:update')
-      dispatchEvent('sw:update', 0)
+      dispatchEvent('sw:update', {}, 0)
     },
     offline () {
       console.log('No internet connection found. App is running in offline mode.')

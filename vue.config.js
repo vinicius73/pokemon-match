@@ -5,6 +5,7 @@ const pkg = require('./package.json')
 process.env.VUE_APP_VERSION = pkg.version
 
 module.exports = {
+  productionSourceMap: false,
   transpileDependencies: [
     'vuetify'
   ],
@@ -47,7 +48,10 @@ module.exports = {
     workboxOptions: {
       cacheId: `${pkg.name}@${pkg.version}`,
       clientsClaim: true,
-      exclude: /_redirects/
+      exclude: /_redirects/,
+      importScripts: [
+        '/sw.cache.js'
+      ]
     }
   }
 }
