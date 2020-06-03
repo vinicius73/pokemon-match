@@ -13,7 +13,7 @@ export default MatchGame.extend({
 
 <template>
   <v-row dense>
-    <v-col cols="12">
+    <v-col v-if="ready" cols="12">
       <PokemonCard
         ref="currentPokemon"
         :color="resultColor"
@@ -30,20 +30,20 @@ export default MatchGame.extend({
           </v-card-text>
         </PokemonCard>
     </v-col>
-    <v-col>
+    <v-col v-if="ready">
       <v-row>
         <v-col
           cols="12"
           md="6"
           sm="6"
-          v-for="(id, index) in options"
-          :key="`option-${id}-${index}`">
+          v-for="(pokemon, index) in options"
+          :key="`option-${pokemon.name}-${index}`">
           <v-card dark
-            @click="select(id)"
+            @click="select(pokemon.name)"
             color="info">
             <v-card-title
               class="headline"
-              v-text="id" />
+              v-text="pokemon.name" />
           </v-card>
         </v-col>
       </v-row>

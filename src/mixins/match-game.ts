@@ -6,15 +6,17 @@ import { speak } from '@/plugins/speech-synthesis'
 import ProgressBar from '@/components/ProgressBar.vue'
 import PokemonCard from '@/components/PokemonCard.vue'
 import ScoreBar from '@/components/ScoreBar.vue'
-import list from '@/assets/pokemon.json'
+import { loadPokemonList, Pokemon } from '@/data'
 
 export default Vue.extend({
   components: { PokemonCard, ScoreBar, ProgressBar },
   data () {
     return {
+      ready: false,
       score: 0,
       result: null as boolean | null,
-      pokemon: sample(list) as string
+      list: [] as ReadonlyArray<Pokemon>,
+      pokemon: {} as Pokemon
     }
   },
   computed: {
@@ -34,10 +36,10 @@ export default Vue.extend({
     optionsSize (): number {
       return this.$vuetify.breakpoint.xs ? 3 : 4
     },
-    options (): string[] {
+    options (): Pokemon[] {
       return shuffle([
         this.pokemon,
-        ...sampleSize(list, this.optionsSize - 1)
+        ...sampleSize(this.list, this.optionsSize - 1)
       ])
     }
   },
@@ -59,27 +61,34 @@ export default Vue.extend({
       // @ts-ignore
       this.$nextTick(() => {
         // @ts-ignore
-        this.pokemon = sample(list) as string
+        this.pokemon = sample(this.list)
         // @ts-ignore
         this.$vuetify.goTo(0)
       })
     }, 3500),
-    select (id: string) {
+    select (name: string) {
       if (this.hasResult) {
         return
       }
 
       if (this.speechSynthesis) {
-        speak(this.pokemon)
+        speak(this.pokemon.name)
           .then(noop, console.warn)
       }
 
-      this.result = id === this.pokemon
+      this.result = name === this.pokemon.name
       this.$nextTick(() => {
         // @ts-ignore
         this.$vuetify.goTo(0)
         this.next()
       })
     }
+  },
+  async mounted () {
+    this.list = await loadPokemonList()
+    this.pokemon = sample(this.list) as Pokemon
+    this.$nextTick(() => {
+      this.ready = true
+    })
   }
 })

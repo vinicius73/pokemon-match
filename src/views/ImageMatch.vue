@@ -31,11 +31,11 @@ export default MatchGame.extend({
           cols="12"
           md="6"
           sm="6"
-          v-for="(id, index) in options"
-          :key="`option-${id}-${index}`">
+          v-for="(pokemon, index) in options"
+          :key="`option-${pokemon.name}-${index}`">
           <PokemonCard
-            @click="select(id)"
-            :pokemon="id"
+            @click="select(pokemon.name)"
+            :pokemon="pokemon"
             showName visible />
         </v-col>
       </v-row>
