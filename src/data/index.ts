@@ -15,17 +15,17 @@ function freeze<T> (list: ReadonlyArray<T>) {
 
 const loadPokemonList = (): Promise<ReadonlyArray<Pokemon>> => {
   return import(/* webpackChunkName: "data-pokemon" */'./raw/pokemon.json')
-    .then(result => freeze<Pokemon>(result))
+    .then(result => freeze<Pokemon>(result.default))
 }
 
 const loadAbilitiesList = (): Promise<ReadonlyArray<string>> => {
   return import(/* webpackChunkName: "data-abilities" */ './raw/abilities.json')
-    .then(result => freeze<string>(result))
+    .then(result => freeze<string>(result.default))
 }
 
 const loadTypesList = (): Promise<ReadonlyArray<string>> => {
   return import(/* webpackChunkName: "data-types" */ './raw/types.json')
-    .then(result => freeze<string>(result))
+    .then(result => freeze<string>(result.default))
 }
 
 export {
