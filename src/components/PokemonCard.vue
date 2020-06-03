@@ -1,10 +1,12 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Pokemon } from '@/data'
+import Types from './Types'
 const CDN = 'https://images.weserv.nl/?url=img.pokemondb.net'
 
 export default Vue.extend({
   name: 'PokemonImage',
+  components: { Types },
   props: {
     shake: Boolean,
     pokemon: Object,
@@ -69,8 +71,11 @@ export default Vue.extend({
           v-text="title"
         ></v-card-title>
 
-        <!-- <v-card-subtitle v-text="pokemon"></v-card-subtitle> -->
         <slot />
+
+        <div v-if="visible && !$slots.default">
+          <Types :types="pokemon.types" />
+        </div>
       </div>
 
       <v-avatar
