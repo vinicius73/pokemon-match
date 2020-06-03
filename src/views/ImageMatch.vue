@@ -8,7 +8,14 @@ export default MatchGame.extend({
 
 <template>
   <v-row dense>
-    <v-col cols="12">
+    <div v-if="!ready" class="ma-auto">
+        <v-progress-circular
+          :size="200"
+          :width="10"
+          indeterminate
+        />
+    </div>
+    <v-col v-if="ready" cols="12">
       <PokemonCard
         ref="currentPokemon"
         :color="resultColor"
@@ -25,7 +32,7 @@ export default MatchGame.extend({
           </v-card-text>
         </PokemonCard>
     </v-col>
-    <v-col>
+    <v-col v-if="ready">
       <v-row>
         <v-col
           cols="12"

@@ -65,7 +65,7 @@ export default Vue.extend({
         // @ts-ignore
         this.$vuetify.goTo(0)
       })
-    }, 3500),
+    }, 3100),
     select (name: string) {
       if (this.hasResult) {
         return
