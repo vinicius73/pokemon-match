@@ -18,15 +18,10 @@ self.workbox.routing.registerRoute(
   handler
 )
 
-self.addEventListener('message', async event => {
-  if (event.data.action !== 'SET_POKEMON_IMAGE_CACHE') {
-    return
-  }
-
-  const data = (event.data.data || [])
-    .map(name => {
-      return `${IMG_CDN}/sprites/home/normal/${name}.png`
-    })
+const cachePokemonImages = async names => {
+  const data = names.map(name => {
+    return `${IMG_CDN}/sprites/home/normal/${name}.png`
+  })
 
   console.log('Caching pokémon images...')
 
@@ -36,4 +31,12 @@ self.addEventListener('message', async event => {
     })
 
   console.log('All images are cached now...')
+}
+
+self.addEventListener('message', async event => {
+  if (event.data.action !== 'SET_POKEMON_IMAGE_CACHE') {
+    return
+  }
+
+  await cachePokemonImages(event.data.data || [])
 })
