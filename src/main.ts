@@ -3,6 +3,7 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
+import '@/assets/main.scss'
 
 const Shell = () => import(/* webpackChunkName: "shell" */'./Shell.vue')
 

@@ -1,15 +1,22 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
+<script lang="ts">
+/* eslint-disable @typescript-eslint/ban-ts-ignore, no-console */
 import Vue from 'vue'
 import { sampleSize, shuffle, sample, debounce, noop } from 'lodash-es'
 import { mapState } from 'vuex'
 import { speak } from '@/plugins/speech-synthesis'
-import ProgressBar from '@/components/ProgressBar.vue'
-import PokemonCard from '@/components/PokemonCard.vue'
-import ScoreBar from '@/components/ScoreBar.vue'
+import { ProgressBar, PokemonCard, ScoreBar } from '@/components/Card'
 import { loadPokemonList, Pokemon } from '@/data'
 
 export default Vue.extend({
   components: { PokemonCard, ScoreBar, ProgressBar },
+  props: {
+    name: String,
+    title: String,
+    size: {
+      type: Number,
+      required: false
+    }
+  },
   data () {
     return {
       ready: false,
@@ -34,6 +41,10 @@ export default Vue.extend({
       return null
     },
     optionsSize (): number {
+      if (this.size > 0) {
+        return this.size
+      }
+
       return this.$vuetify.breakpoint.xs ? 3 : 4
     },
     options (): Pokemon[] {
@@ -92,3 +103,46 @@ export default Vue.extend({
     })
   }
 })
+</script>
+
+<template>
+<v-row dense>
+    <div v-if="!ready" class="ma-auto">
+        <v-progress-circular
+          :size="200"
+          :width="10"
+          indeterminate
+        />
+    </div>
+    <v-col v-if="ready" cols="12">
+      <PokemonCard
+        ref="currentPokemon"
+        :color="resultColor"
+        :pokemon="pokemon"
+        :shake="hasResult"
+        :visible="hasResult">
+          <ScoreBar
+            v-bind="{ title, name }"
+            :hits="score"
+            slot="top" />
+          <ProgressBar :active="hasResult" slot="top" />
+          <v-card-text v-if="hasResult">
+            {{ result ?  'Congratulations!' : 'Try Again ;)' }}
+          </v-card-text>
+        </PokemonCard>
+    </v-col>
+    <v-col v-if="ready">
+      <slot v-if="$scopedSlots.default" v-bind="{ options, select }"></slot>
+      <v-row v-else>
+        <v-col
+          cols="12"
+          md="6"
+          sm="6"
+          v-for="(pokemon, index) in options"
+          :key="`option-${pokemon.name}-${index}`">
+            <slot name="option" v-bind="{ pokemon, select }" />
+        </v-col>
+      </v-row>
+    </v-col>
+  </v-row>
+</template>

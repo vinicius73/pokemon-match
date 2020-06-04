@@ -1,11 +1,15 @@
 /* eslint-disable @typescript-eslint/camelcase */
 /* eslint-disable @typescript-eslint/no-var-requires */
+
 const pkg = require('./package.json')
 
 process.env.VUE_APP_VERSION = pkg.version
 
 module.exports = {
   productionSourceMap: false,
+  css: {
+    extract: { ignoreOrder: true }
+  },
   transpileDependencies: [
     'vuetify'
   ],

@@ -11,12 +11,12 @@ const routes: Array<RouteConfig> = [
   {
     path: '/image-match',
     name: 'ImageMatch',
-    component: () => import(/* webpackChunkName: "image-match" */ '../views/ImageMatch.vue')
+    component: () => import(/* webpackChunkName: "page-image-match" */ '../views/ImageMatch.vue')
   },
   {
     path: '/name-match',
     name: 'NameMatch',
-    component: () => import(/* webpackChunkName: "name-match" */ '../views/NameMatch.vue')
+    component: () => import(/* webpackChunkName: "page-name-match" */ '../views/NameMatch.vue')
   }
 ]
 
