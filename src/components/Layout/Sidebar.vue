@@ -11,10 +11,10 @@ export default Vue.extend({
     value: Boolean
   },
   computed: {
-    ...mapState(['speechSynthesis', 'hasSynthesisSupport'])
+    ...mapState(['speechSynthesis', 'vibration', 'hasSynthesisSupport', 'hasVibrationSupport'])
   },
   methods: {
-    ...mapMutations(['setSpeechSynthesis'])
+    ...mapMutations(['setSpeechSynthesis', 'setVibration'])
   }
 })
 </script>
@@ -63,8 +63,17 @@ export default Vue.extend({
       </v-list-item-content>
     </v-list-item>
 
-    <div slot="append" v-if="hasSynthesisSupport">
+    <div slot="append">
       <v-switch
+        v-if="hasVibrationSupport"
+        :value="vibration"
+        @change="setVibration"
+        append-icon="mdi-vibrate"
+        class="ma-2"
+        label="Vibrate?"></v-switch>
+
+      <v-switch
+        v-if="hasSynthesisSupport"
         :value="speechSynthesis"
         @change="setSpeechSynthesis"
         append-icon="mdi-text-to-speech"

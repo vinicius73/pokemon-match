@@ -1,6 +1,8 @@
 export interface PokeMatchState {
-  speechSynthesis: boolean;
   hasSynthesisSupport: boolean;
+  hasVibrationSupport: boolean;
+  vibration: boolean;
+  speechSynthesis: boolean;
   hasUpdate: boolean;
   SWReady: boolean;
 }

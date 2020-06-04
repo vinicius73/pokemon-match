@@ -4,6 +4,7 @@ import Vue from 'vue'
 import { sampleSize, shuffle, sample, debounce, noop } from 'lodash-es'
 import { mapState } from 'vuex'
 import { speak } from '@/plugins/speech-synthesis'
+import { vibrate } from '@/plugins/vibration'
 import { ProgressBar, PokemonCard, ScoreBar } from '@/components/Card'
 import { loadPokemonList, Pokemon } from '@/data'
 
@@ -27,7 +28,7 @@ export default Vue.extend({
     }
   },
   computed: {
-    ...mapState(['speechSynthesis']),
+    ...mapState(['speechSynthesis', 'vibration']),
     hasResult (): boolean {
       return this.result !== null
     },
@@ -88,6 +89,11 @@ export default Vue.extend({
       }
 
       this.result = name === this.pokemon.name
+
+      if (this.vibration) {
+        vibrate(this.result ? [300] : [100, 200, 100])
+      }
+
       this.$nextTick(() => {
         // @ts-ignore
         this.$vuetify.goTo(0)
