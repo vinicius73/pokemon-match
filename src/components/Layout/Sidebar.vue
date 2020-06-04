@@ -56,7 +56,7 @@ export default Vue.extend({
 
     <v-list-item link :to="{ name: 'NameMatch' }">
       <v-list-item-icon>
-        <v-icon>mdi-image-search</v-icon>
+        <v-icon>mdi-form-textbox</v-icon>
       </v-list-item-icon>
       <v-list-item-content>
         <v-list-item-title>Name Match</v-list-item-title>

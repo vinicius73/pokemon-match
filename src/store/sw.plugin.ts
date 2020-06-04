@@ -5,24 +5,14 @@ import { loadPokemonList } from '@/data'
 
 export default (store: Store<PokeMatchState>) => {
   let cached = false
-  let ready = false
+  const ready = false
 
   document.addEventListener('sw:update', () => {
     store.commit('setHasUpdate', true)
   })
 
-  document.addEventListener('sw:ready', async (event: unknown) => {
+  document.addEventListener('sw:ready', async () => {
     store.commit('setSWReady', true)
-
-    if (ready) {
-      return
-    }
-
-    ready = true
-
-    const sw = get(event, ['meta', 'sw']) as ServiceWorkerRegistration
-
-    sw.update()
   })
 
   document.addEventListener('sw:cached', async (event: unknown) => {
