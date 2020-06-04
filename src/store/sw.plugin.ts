@@ -5,7 +5,6 @@ import { loadPokemonList } from '@/data'
 
 export default (store: Store<PokeMatchState>) => {
   let cached = false
-  const ready = false
 
   document.addEventListener('sw:update', () => {
     store.commit('setHasUpdate', true)
