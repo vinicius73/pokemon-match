@@ -1,5 +1,5 @@
 <script lang="ts">
-/* eslint-disable @typescript-eslint/ban-ts-ignore, no-console */
+/* eslint-disable no-console */
 import Vue from 'vue'
 import { sampleSize, shuffle, sample, debounce, noop } from 'lodash-es'
 import { mapState } from 'vuex'

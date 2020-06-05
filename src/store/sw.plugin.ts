@@ -8,7 +8,6 @@ const CACHE_CMD = 'SET_POKEMON_IMAGE_CACHE'
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Network_Information_API
 const allowDownload = (): boolean => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection || navigator.msConnection
 

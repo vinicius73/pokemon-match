@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const synth = window.speechSynthesis
 
 const hasSupport = (): boolean => {

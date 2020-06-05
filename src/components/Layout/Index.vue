@@ -1,5 +1,4 @@
 <script lang="ts">
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import Vue from 'vue'
 import Sidebar from './Sidebar.vue'
 import AppFooter from './AppFooter.vue'

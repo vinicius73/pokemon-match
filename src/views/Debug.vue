@@ -3,14 +3,12 @@ import Vue from 'vue'
 import { keysIn, map, toString, sortBy } from 'lodash-es'
 import DebugList from '@/components/DebugList.vue'
 
-const generateList = (original: object): { key: string; value: string }[] => {
+const generateList = (original: Record<string, unknown>): { key: string; value: string }[] => {
   const keys = sortBy(keysIn(original))
 
   return map(keys, (key) => {
     return {
       key,
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-      // @ts-ignore
       value: toString(original[key])
     }
   })
@@ -23,22 +21,25 @@ export default Vue.extend({
   },
   computed: {
     speechSynthesis () {
+      // @ts-ignore
       return generateList(window.speechSynthesis)
     },
     navigator () {
+      // @ts-ignore
       return generateList(navigator)
     },
     connection () {
       return generateList(
-        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
         // @ts-ignore
         navigator.connection || navigator.mozConnection || navigator.webkitConnection || navigator.msConnection
       )
     },
     breakpoint () {
+      // @ts-ignore
       return generateList(this.$vuetify.breakpoint)
     },
     application () {
+      // @ts-ignore
       return generateList(this.$vuetify.application)
     }
   }
