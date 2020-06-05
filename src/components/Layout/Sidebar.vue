@@ -5,7 +5,11 @@ import { mapState, mapMutations } from 'vuex'
 export default Vue.extend({
   name: 'Sidebar',
   data: () => ({
-    version: process.env.VUE_APP_VERSION
+    version: process.env.VUE_APP_VERSION,
+    model: {
+      vibration: true,
+      speechSynthesis: false
+    }
   }),
   props: {
     value: Boolean
@@ -13,8 +17,16 @@ export default Vue.extend({
   computed: {
     ...mapState(['speechSynthesis', 'vibration', 'hasSynthesisSupport', 'hasVibrationSupport'])
   },
+  watch: {
+    'model.vibration': 'setVibration',
+    'model.speechSynthesis': 'setSpeechSynthesis'
+  },
   methods: {
     ...mapMutations(['setSpeechSynthesis', 'setVibration'])
+  },
+  mounted () {
+    this.model.vibration = this.vibration
+    this.model.speechSynthesis = this.speechSynthesis
   }
 })
 </script>
@@ -66,16 +78,14 @@ export default Vue.extend({
     <div slot="append">
       <v-switch
         v-if="hasVibrationSupport"
-        :value="vibration"
-        @change="setVibration"
+        v-model="model.vibration"
         append-icon="mdi-vibrate"
         class="ma-2"
         label="Vibrate?"></v-switch>
 
       <v-switch
         v-if="hasSynthesisSupport"
-        :value="speechSynthesis"
-        @change="setSpeechSynthesis"
+        v-model="model.speechSynthesis"
         append-icon="mdi-text-to-speech"
         class="ma-2"
         label="Pokémon names?"></v-switch>
