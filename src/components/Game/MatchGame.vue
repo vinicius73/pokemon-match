@@ -20,6 +20,7 @@ export default Vue.extend({
   },
   data () {
     return {
+      hideAll: true,
       ready: false,
       score: 0,
       result: null as boolean | null,
@@ -49,6 +50,10 @@ export default Vue.extend({
       return this.$vuetify.breakpoint.xs ? 3 : 4
     },
     options (): Pokemon[] {
+      if (this.hideAll) {
+        return []
+      }
+
       return shuffle([
         this.pokemon,
         ...sampleSize(this.list, this.optionsSize - 1)
@@ -64,6 +69,13 @@ export default Vue.extend({
       this.score = val
         ? this.score + 1
         : 0
+    },
+    ready (val) {
+      if (val) {
+        setTimeout(() => {
+          this.hideAll = false
+        }, 100)
+      }
     }
   },
   methods: {
@@ -76,8 +88,13 @@ export default Vue.extend({
         this.pokemon = sample(this.list)
         // @ts-ignore
         this.$vuetify.goTo(0)
+        // @ts-ignore
+        this.$nextTick(() => {
+          // @ts-ignore
+          this.hideAll = false
+        })
       })
-    }, 3100),
+    }, 2000),
     select (name: string) {
       if (this.hasResult) {
         return
@@ -98,6 +115,10 @@ export default Vue.extend({
         // @ts-ignore
         this.$vuetify.goTo(0)
         this.next()
+
+        setTimeout(() => {
+          this.hideAll = true
+        }, 700)
       })
     }
   },
@@ -139,7 +160,7 @@ export default Vue.extend({
     </v-col>
     <v-col v-if="ready">
       <slot v-if="$scopedSlots.default" v-bind="{ options, select }"></slot>
-      <v-row v-else>
+      <transition-group tag="div" class="row transition-group-delay" name="fade-in" css>
         <v-col
           cols="12"
           md="6"
@@ -148,7 +169,7 @@ export default Vue.extend({
           :key="`option-${pokemon.name}-${index}`">
             <slot name="option" v-bind="{ pokemon, select }" />
         </v-col>
-      </v-row>
+      </transition-group>
     </v-col>
   </v-row>
 </template>
