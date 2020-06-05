@@ -48,7 +48,13 @@ module.exports = {
     appleMobileWebAppStatusBarStyle: 'black',
     assetsVersion: pkg.version,
     manifestOptions: {
-      short_name: 'Pokémon Match'
+      short_name: 'Pokémon Match',
+      orientation: 'portrait',
+      description: 'Test your knowledge, do you know these pokémon?',
+      screenshots: [{
+        src: 'cover.png',
+        type: 'image/png'
+      }]
     },
     workboxOptions: {
       cacheId: `${pkg.name}@${pkg.version}`,
