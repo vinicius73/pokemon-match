@@ -1,4 +1,5 @@
 <script lang="ts">
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import Vue from 'vue'
 import Sidebar from './Sidebar.vue'
 import AppFooter from './AppFooter.vue'
@@ -8,12 +9,35 @@ export default Vue.extend({
   name: 'Layout',
   components: { Sidebar, AppFooter, UpdateNotify },
   data: () => ({
-    sidebar: false
+    sidebar: false,
+    online: navigator.onLine
   }),
   methods: {
     showDidebar () {
       this.sidebar = true
     }
+  },
+  mounted () {
+    // @ts-ignore
+    this.$onOnline = () => {
+      this.online = true
+    }
+
+    // @ts-ignore
+    this.$onOffline = () => {
+      this.online = false
+    }
+
+    // @ts-ignore
+    window.addEventListener('online', this.$onOnline)
+    // @ts-ignore
+    window.addEventListener('offline', this.$onOffline)
+  },
+  beforeDestroy () {
+    // @ts-ignore
+    window.removeEventListener('online', this.$onOnline)
+    // @ts-ignore
+    window.removeEventListener('offline', this.$onOffline)
   }
 })
 </script>
@@ -31,6 +55,7 @@ export default Vue.extend({
       <v-toolbar-title>Pokémon Match</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-img
+        v-if="online"
         alt="Pokémon Match"
         class="shrink mr-2"
         contain
@@ -38,6 +63,9 @@ export default Vue.extend({
         transition="scale-transition"
         width="40"
       />
+      <v-icon v-else>
+        mdi-wifi-off
+      </v-icon>
     </v-app-bar>
     <v-content>
       <UpdateNotify />
