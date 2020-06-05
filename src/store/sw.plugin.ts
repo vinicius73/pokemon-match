@@ -12,9 +12,9 @@ const allowDownload = (): boolean => {
   // @ts-ignore
   const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection || navigator.msConnection
 
-  if (conn.saveData === true) {
-    return false
-  }
+  // if (conn.saveData === true) {
+  //   return false
+  // }
 
   return conn.type === 'wifi' || conn.effectiveType === '4g'
 }
