@@ -28,6 +28,13 @@ export default Vue.extend({
     navigator () {
       return generateList(navigator)
     },
+    connection () {
+      return generateList(
+        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+        // @ts-ignore
+        navigator.connection || navigator.mozConnection || navigator.webkitConnection || navigator.msConnection
+      )
+    },
     breakpoint () {
       return generateList(this.$vuetify.breakpoint)
     },
@@ -44,6 +51,11 @@ export default Vue.extend({
       <DebugList
         :items="navigator"
         title="navigator" />
+    </v-col>
+    <v-col cols="12" md="6">
+      <DebugList
+        :items="connection"
+        title="connection" />
     </v-col>
     <v-col cols="12" md="6">
       <DebugList
