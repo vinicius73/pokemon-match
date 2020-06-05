@@ -1,14 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import sw from './sw.plugin'
-import nav from './navigator.plugin'
 import { PokeMatchState } from './types'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store<PokeMatchState>({
   state: {
-    hasSynthesisSupport: false,
+    hasSynthesisSupport: true,
     vibration: true,
     hasVibrationSupport: true,
     speechSynthesis: false,
@@ -39,5 +38,5 @@ export default new Vuex.Store<PokeMatchState>({
   },
   modules: {
   },
-  plugins: [sw, nav]
+  plugins: [sw]
 })
