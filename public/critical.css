@@ -18,6 +18,11 @@ body.waiting-ready {}
   text-align: center;
 }
 
+.animation-pokeball-shake {
+  animation-duration: 1s;
+  animation-name: pokeball-shake;
+}
+
 /** from https://codepen.io/raubaca/pen/obaZmG **/
 
 .pokeball-container {

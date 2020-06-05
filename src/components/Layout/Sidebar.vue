@@ -40,7 +40,7 @@ export default Vue.extend({
       temporary
     >
     <v-list-item>
-      <v-list-item-avatar>
+      <v-list-item-avatar :class="{ 'animation-shake': value }">
         <v-img
           :src="require('@/assets/pokeball-sidebar.svg')" />
       </v-list-item-avatar>
@@ -72,6 +72,15 @@ export default Vue.extend({
       </v-list-item-icon>
       <v-list-item-content>
         <v-list-item-title>Name Match</v-list-item-title>
+      </v-list-item-content>
+    </v-list-item>
+
+    <v-list-item link :to="{ name: 'About' }">
+      <v-list-item-icon>
+        <v-icon>mdi-information</v-icon>
+      </v-list-item-icon>
+      <v-list-item-content>
+        <v-list-item-title>About</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
 
