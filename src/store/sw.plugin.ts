@@ -12,6 +12,10 @@ const allowDownload = (): boolean => {
   // @ts-ignore
   const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection || navigator.msConnection
 
+  if (!conn) {
+    return true
+  }
+
   // if (conn.saveData === true) {
   //   return false
   // }
