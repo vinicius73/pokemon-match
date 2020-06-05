@@ -112,7 +112,7 @@ export default Vue.extend({
 </script>
 
 <template>
-<v-row dense>
+  <v-row dense>
     <div v-if="!ready" class="ma-auto">
         <v-progress-circular
           :size="200"
