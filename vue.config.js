@@ -53,6 +53,7 @@ module.exports = {
     workboxOptions: {
       cacheId: `${pkg.name}@${pkg.version}`,
       clientsClaim: true,
+      skipWaiting: true,
       cleanupOutdatedCaches: true,
       exclude: /(_redirects|_headers)/,
       importScripts: [
