@@ -19,6 +19,11 @@ const routes: Array<RouteConfig> = [
     component: () => import(/* webpackChunkName: "page-name-match" */ '../views/NameMatch.vue')
   },
   {
+    path: '/type-match',
+    name: 'TypeMatch',
+    component: () => import(/* webpackChunkName: "page-type-match" */ '../views/TypeMatch.vue')
+  },
+  {
     path: '/about',
     name: 'About',
     component: () => import(/* webpackChunkName: "page-about" */ '../views/About.vue')
