@@ -73,7 +73,7 @@ export default Vue.extend({
 
         <slot />
 
-        <div v-if="visible && !$slots.default">
+        <div class="pokemon-card-content" v-if="visible && !$slots.default">
           <Types :types="pokemon.types" />
         </div>
       </div>
@@ -103,5 +103,8 @@ export default Vue.extend({
 }
 .pokemon-card.shake {
   animation-name: shake;
+}
+.pokemon-card-content {
+  margin-left: 13px;
 }
 </style>
