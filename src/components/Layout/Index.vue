@@ -66,12 +66,12 @@ export default Vue.extend({
         mdi-wifi-off
       </v-icon>
     </v-app-bar>
-    <v-content>
+    <v-main>
       <UpdateNotify />
       <div class="pa-2">
         <slot />
       </div>
-    </v-content>
+    </v-main>
     <AppFooter />
   </v-app>
 </template>
