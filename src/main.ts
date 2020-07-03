@@ -5,7 +5,8 @@ import './registerServiceWorker'
 import './plugins/orientation'
 import '@/assets/main.scss'
 
-Vue.config.productionTip = false
+Vue.config.productionTip = process.env.NODE_ENV !== 'production'
+Vue.config.performance = process.env.NODE_ENV !== 'production'
 
 const bootstrap = async () => {
   const router = await import(/* webpackChunkName: "root" */'./router')
