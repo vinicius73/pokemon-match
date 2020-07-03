@@ -25,6 +25,12 @@ body.waiting-ready {}
 
 /** from https://codepen.io/raubaca/pen/obaZmG **/
 
+.pokeball-container, .pokeball-container *, .pokeball-container *::before, .pokeball-container *::after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 .pokeball-container {
   position: absolute;
   top: 50%;
@@ -77,6 +83,14 @@ body.waiting-ready {}
   z-index: 10;
   box-shadow: 0 0 0 10px black;
   animation: blink .5s alternate 7;
+}
+
+.pokeball-container:hover .pokeball {
+  animation: pokeball-shake 1.30s cubic-bezier(.36, .07, .19, .97) 99;
+}
+
+.pokeball-container:hover .pokeball__button {
+  animation: blink .6s alternate 99;
 }
 
 /* Animation */

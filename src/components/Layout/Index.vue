@@ -61,18 +61,20 @@ export default Vue.extend({
       <v-app-bar-nav-icon @click="showDidebar"></v-app-bar-nav-icon>
       <v-toolbar-title>{{ title }}</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-img
-        v-if="online"
-        alt="Pokémon Match"
-        class="shrink mr-2"
-        contain
-        :src="require('@/assets/pokeball-header.svg')"
-        transition="scale-transition"
-        width="40"
-      />
-      <v-icon v-else>
-        mdi-wifi-off
-      </v-icon>
+      <router-link :to="{ name: 'Home' }">
+        <v-img
+          v-if="online"
+          alt="Pokémon Match"
+          class="shrink mr-2"
+          contain
+          :src="require('@/assets/pokeball-header.svg')"
+          transition="scale-transition"
+          width="40"
+        />
+        <v-icon v-else>
+          mdi-wifi-off
+        </v-icon>
+      </router-link>
     </v-app-bar>
     <v-main>
       <UpdateNotify />
