@@ -75,14 +75,14 @@ export default Vue.extend({
       </v-list-item-content>
     </v-list-item>
 
-    <v-list-item link :to="{ name: 'TypeMatch' }">
+    <!-- <v-list-item link :to="{ name: 'TypeMatch' }">
       <v-list-item-icon>
         <v-icon>mdi-tag-multiple</v-icon>
       </v-list-item-icon>
       <v-list-item-content>
         <v-list-item-title>Type Match</v-list-item-title>
       </v-list-item-content>
-    </v-list-item>
+    </v-list-item> -->
 
     <v-list-item link :to="{ name: 'About' }">
       <v-list-item-icon>
