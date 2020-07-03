@@ -1,6 +1,8 @@
 <script>
 export default {
-  name: 'TypeMatch'
+  name: 'TypeMatch',
+  // @ts-ignore
+  title: 'Type Match'
 }
 </script>
 

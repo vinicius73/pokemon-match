@@ -16,6 +16,8 @@ const generateList = (original: Record<string, unknown>): { key: string; value: 
 
 export default Vue.extend({
   name: 'DebugPage',
+  // @ts-ignore
+  title: 'Debug 🐛',
   components: {
     DebugList
   },

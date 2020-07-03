@@ -4,7 +4,9 @@ import { MatchGame } from '@/components/Game'
 
 export default Vue.extend({
   name: 'NameMatch',
-  components: { MatchGame }
+  components: { MatchGame },
+  // @ts-ignore
+  title: 'Name Match'
 })
 </script>
 

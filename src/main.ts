@@ -1,12 +1,17 @@
 /* eslint-disable no-console */
 
 import Vue from 'vue'
+// @ts-ignore
+import PageTitle from 'vue-page-title'
 import { install as OnIdlePlugin, onIdle } from './plugins/on-idle'
 import './registerServiceWorker'
 import './plugins/orientation'
 import '@/assets/main.scss'
 
 Vue.use(OnIdlePlugin)
+Vue.use(PageTitle, {
+  suffix: '- Pokémon Match'
+})
 
 Vue.config.productionTip = process.env.NODE_ENV !== 'production'
 Vue.config.performance = process.env.NODE_ENV !== 'production'

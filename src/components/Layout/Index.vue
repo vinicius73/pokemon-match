@@ -11,6 +11,14 @@ export default Vue.extend({
     sidebar: false,
     online: navigator.onLine
   }),
+  computed: {
+    title () {
+      return this.$route.name === 'Home'
+        ? 'Pokémon Match'
+        // @ts-ignore
+        : this.$title
+    }
+  },
   methods: {
     showDidebar () {
       this.sidebar = true
@@ -51,7 +59,7 @@ export default Vue.extend({
       dark
     >
       <v-app-bar-nav-icon @click="showDidebar"></v-app-bar-nav-icon>
-      <v-toolbar-title>Pokémon Match</v-toolbar-title>
+      <v-toolbar-title>{{ title }}</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-img
         v-if="online"

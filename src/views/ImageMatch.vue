@@ -5,7 +5,9 @@ import { PokemonCard } from '@/components/Card'
 
 export default Vue.extend({
   name: 'ImageMatch',
-  components: { MatchGame, PokemonCard }
+  components: { MatchGame, PokemonCard },
+  // @ts-ignore
+  title: 'Image Match'
 })
 </script>
 
