@@ -7,6 +7,7 @@ import { speak } from '@/plugins/speech-synthesis'
 import { vibrate } from '@/plugins/vibration'
 import { ProgressBar, PokemonCard, ScoreBar } from '@/components/Card'
 import { loadPokemonList, Pokemon } from '@/data'
+import { onIdle } from '@/plugins/on-idle'
 
 export default Vue.extend({
   components: { PokemonCard, ScoreBar, ProgressBar },
@@ -66,16 +67,20 @@ export default Vue.extend({
         return
       }
 
-      this.score = val
-        ? this.score + 1
-        : 0
+      onIdle(() => {
+        this.score = val
+          ? this.score + 1
+          : 0
+      })
     },
     ready (val) {
-      if (val) {
-        setTimeout(() => {
-          this.hideAll = false
-        }, 100)
+      if (!val) {
+        return
       }
+
+      onIdle(() => {
+        this.hideAll = false
+      })
     }
   },
   methods: {
@@ -83,16 +88,19 @@ export default Vue.extend({
       // @ts-ignore
       this.result = null
       // @ts-ignore
-      this.$nextTick(() => {
-        // @ts-ignore
-        this.pokemon = sample(this.list)
-        // @ts-ignore
-        this.$vuetify.goTo(0)
-        // @ts-ignore
-        this.$nextTick(() => {
+      onIdle(async () => {
+        await onIdle(() => {
           // @ts-ignore
-          this.hideAll = false
+          this.pokemon = sample(this.list)
         })
+          .then(() => {
+            // @ts-ignore
+            this.$vuetify.goTo(0)
+          })
+          .then(() => {
+            // @ts-ignore
+            this.hideAll = false
+          })
       })
     }, 2000),
     select (name: string) {
@@ -111,7 +119,7 @@ export default Vue.extend({
         vibrate(this.result ? [300] : [100, 200, 100])
       }
 
-      this.$nextTick(() => {
+      onIdle(() => {
         // @ts-ignore
         this.$vuetify.goTo(0)
         this.next()
@@ -123,11 +131,15 @@ export default Vue.extend({
     }
   },
   async mounted () {
-    this.list = await loadPokemonList()
-    this.pokemon = sample(this.list) as Pokemon
-    this.$nextTick(() => {
-      this.ready = true
+    onIdle(async () => {
+      this.list = await loadPokemonList()
     })
+      .then(() => {
+        this.pokemon = sample(this.list) as Pokemon
+      })
+      .then(() => {
+        this.ready = true
+      })
   }
 })
 </script>
