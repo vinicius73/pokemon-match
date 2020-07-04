@@ -58,6 +58,22 @@ const bootstrap = async () => {
     router: router.default,
     store: store.default,
     vuetify: vuetify.default,
+    beforeMount () {
+      const stylesheets = [
+        'https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap',
+        'https://cdn.jsdelivr.net/npm/@mdi/font@5.3.45/css/materialdesignicons.min.css'
+      ]
+
+      stylesheets.forEach((href) => {
+        const link = document.createElement('link')
+
+        link.href = href
+        link.rel = 'stylesheet'
+        link.type = 'text/css'
+
+        document.body.appendChild(link)
+      })
+    },
     // @ts-ignore
     render: h => h(Shell, { staticClass: 'ready' })
   }).$mount($app)
