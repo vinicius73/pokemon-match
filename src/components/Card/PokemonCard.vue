@@ -101,6 +101,9 @@ export default Vue.extend({
   transition: background-color 0.5s ease;
   animation-duration: 1s;
 }
+.pokemon-card .v-card__title {
+  word-break: keep-all;
+}
 .pokemon-card.shake {
   animation-name: shake;
 }
