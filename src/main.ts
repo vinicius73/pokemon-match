@@ -4,6 +4,7 @@ import Vue from 'vue'
 // @ts-ignore
 import PageTitle from 'vue-page-title'
 import { install as OnIdlePlugin, onIdle } from './plugins/on-idle'
+import { loadStylesheets } from './lib/stylesheets'
 import Pokeball from '@/components/Pokeball'
 import './registerServiceWorker'
 import './plugins/orientation'
@@ -20,6 +21,8 @@ Vue.config.performance = process.env.NODE_ENV !== 'production'
 const loadShell = () => {
   return new Promise((resolve) => {
     setTimeout(async () => {
+      await onIdle()
+
       resolve(
         import(/* webpackChunkName: "shell" */'./Shell.vue')
       )
@@ -30,7 +33,7 @@ const loadShell = () => {
         .body
         .classList
         .remove('waiting-ready', 'waiting-bootstrap')
-    }, 1500)
+    }, 100)
   })
 }
 
@@ -60,19 +63,17 @@ const bootstrap = async () => {
     vuetify: vuetify.default,
     beforeMount () {
       const stylesheets = [
-        'https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap',
+        'https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap'
+      ]
+
+      loadStylesheets(stylesheets)
+    },
+    mounted () {
+      const stylesheets = [
         'https://cdn.jsdelivr.net/npm/@mdi/font@5.3.45/css/materialdesignicons.min.css'
       ]
 
-      stylesheets.forEach((href) => {
-        const link = document.createElement('link')
-
-        link.href = href
-        link.rel = 'stylesheet'
-        link.type = 'text/css'
-
-        document.body.appendChild(link)
-      })
+      loadStylesheets(stylesheets)
     },
     // @ts-ignore
     render: h => h(Shell, { staticClass: 'ready' })
@@ -89,4 +90,4 @@ setTimeout(async () => {
 
   bootstrap()
     .catch(console.error)
-}, 500)
+}, 1)
