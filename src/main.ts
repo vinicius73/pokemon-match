@@ -19,22 +19,7 @@ Vue.config.productionTip = process.env.NODE_ENV !== 'production'
 Vue.config.performance = process.env.NODE_ENV !== 'production'
 
 const loadShell = () => {
-  return new Promise((resolve) => {
-    setTimeout(async () => {
-      await onIdle()
-
-      resolve(
-        import(/* webpackChunkName: "shell" */'./Shell.vue')
-      )
-
-      await onIdle()
-
-      document
-        .body
-        .classList
-        .remove('waiting-ready', 'waiting-bootstrap')
-    }, 100)
-  })
+  return onIdle(() => import(/* webpackChunkName: "shell" */'./Shell.vue'))
 }
 
 const bootstrap = async () => {
@@ -68,12 +53,19 @@ const bootstrap = async () => {
 
       loadStylesheets(stylesheets)
     },
-    mounted () {
+    async mounted () {
       const stylesheets = [
         'https://cdn.jsdelivr.net/npm/@mdi/font@5.3.45/css/materialdesignicons.min.css'
       ]
 
-      loadStylesheets(stylesheets)
+      await loadStylesheets(stylesheets)
+
+      onIdle(() => {
+        document
+          .body
+          .classList
+          .remove('waiting-ready', 'waiting-bootstrap')
+      })
     },
     // @ts-ignore
     render: h => h(Shell, { staticClass: 'ready' })
