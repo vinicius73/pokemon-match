@@ -60,7 +60,7 @@ module.exports = {
       clientsClaim: true,
       skipWaiting: true,
       cleanupOutdatedCaches: true,
-      exclude: /(_redirects|_headers)/,
+      exclude: /(_redirects|_headers|cover.png|robots.txt|icons\/apple)/,
       importScripts: [
         '/sw.cache.js'
       ]
