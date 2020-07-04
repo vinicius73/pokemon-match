@@ -1,10 +1,11 @@
 /* eslint-disable no-console */
+import { onIdle } from './on-idle'
 
-(async () => {
+onIdle(() => {
   if (!screen.orientation) {
     return
   }
 
   screen.orientation.lock('portrait')
-})()
+})
   .catch(console.warn)

@@ -57,7 +57,7 @@ const bootstrap = async () => {
 
   await onIdle()
 
-  new Vue({
+  const app = new Vue({
     router: router.default,
     store: store.default,
     vuetify: vuetify.default,
@@ -77,17 +77,20 @@ const bootstrap = async () => {
     },
     // @ts-ignore
     render: h => h(Shell, { staticClass: 'ready' })
-  }).$mount($app)
+  })
+
+  await onIdle()
+
+  app.$mount($app)
 }
 
-setTimeout(async () => {
+onIdle(() => {
   document
     .body
     .classList
     .add('waiting-bootstrap')
-
-  await onIdle()
-
-  bootstrap()
-    .catch(console.error)
-}, 1)
+})
+  .then(() => {
+    bootstrap()
+      .catch(console.error)
+  })
