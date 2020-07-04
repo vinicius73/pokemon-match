@@ -1,6 +1,6 @@
 {
   "name": "pokemon-match",
-  "version": "0.12.0",
+  "version": "0.12.1",
   "private": true,
   "scripts": {
     "build": "vue-cli-service build",
