@@ -1,12 +1,12 @@
 <script lang="ts">
 import Vue from 'vue'
+import { onIdle } from '@/plugins/on-idle'
 import Sidebar from './Sidebar.vue'
-import AppFooter from './AppFooter.vue'
 import UpdateNotify from './UpdateNotify.vue'
 
 export default Vue.extend({
   name: 'Layout',
-  components: { Sidebar, AppFooter, UpdateNotify },
+  components: { Sidebar, UpdateNotify },
   data: () => ({
     sidebar: false,
     online: navigator.onLine
@@ -35,10 +35,12 @@ export default Vue.extend({
       this.online = false
     }
 
-    // @ts-ignore
-    window.addEventListener('online', this.$onOnline)
-    // @ts-ignore
-    window.addEventListener('offline', this.$onOffline)
+    onIdle(() => {
+      // @ts-ignore
+      window.addEventListener('online', this.$onOnline)
+      // @ts-ignore
+      window.addEventListener('offline', this.$onOffline)
+    })
   },
   beforeDestroy () {
     // @ts-ignore
@@ -82,6 +84,6 @@ export default Vue.extend({
         <slot />
       </div>
     </v-main>
-    <AppFooter />
+    <!-- <AppFooter /> -->
   </v-app>
 </template>

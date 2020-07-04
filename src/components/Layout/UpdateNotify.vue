@@ -1,6 +1,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { mapState, mapMutations } from 'vuex'
+import { onIdle } from '@/plugins/on-idle'
 
 export default Vue.extend({
   name: 'UpdateNotify',
@@ -14,7 +15,7 @@ export default Vue.extend({
     ...mapMutations(['setHasUpdate']),
     update () {
       this.loading = true
-      this.$nextTick(() => {
+      onIdle(() => {
         window.location.reload()
       })
     },

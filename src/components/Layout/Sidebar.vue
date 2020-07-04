@@ -1,5 +1,6 @@
 <script lang="ts">
 import Vue from 'vue'
+import { onIdle } from '@/plugins/on-idle'
 import { mapState, mapMutations } from 'vuex'
 
 export default Vue.extend({
@@ -25,8 +26,10 @@ export default Vue.extend({
     ...mapMutations(['setSpeechSynthesis', 'setVibration'])
   },
   mounted () {
-    this.model.vibration = this.vibration
-    this.model.speechSynthesis = this.speechSynthesis
+    onIdle(() => {
+      this.model.vibration = this.vibration
+      this.model.speechSynthesis = this.speechSynthesis
+    })
   }
 })
 </script>
