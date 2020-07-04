@@ -29,21 +29,5 @@ export default {
         </v-btn>
       </v-col>
     </v-row>
-
-    <a href="javascript:;" class="pokeball-container">
-      <div class="pokeball">
-        <div class="pokeball__button"></div>
-      </div>
-    </a>
   </div>
 </template>
-
-<style scoped>
-.pokeball-container {
-  cursor: default;
-  position: initial;
-  top: initial;
-  left: initial;
-  transform: initial;
-}
-</style>

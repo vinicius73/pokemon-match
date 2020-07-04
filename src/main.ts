@@ -4,6 +4,7 @@ import Vue from 'vue'
 // @ts-ignore
 import PageTitle from 'vue-page-title'
 import { install as OnIdlePlugin, onIdle } from './plugins/on-idle'
+import Pokeball from '@/components/Pokeball'
 import './registerServiceWorker'
 import './plugins/orientation'
 import '@/assets/main.scss'
@@ -16,11 +17,40 @@ Vue.use(PageTitle, {
 Vue.config.productionTip = process.env.NODE_ENV !== 'production'
 Vue.config.performance = process.env.NODE_ENV !== 'production'
 
+const loadShell = () => {
+  return new Promise((resolve) => {
+    setTimeout(async () => {
+      resolve(
+        import(/* webpackChunkName: "shell" */'./Shell.vue')
+      )
+
+      await onIdle()
+
+      document
+        .body
+        .classList
+        .remove('waiting-ready', 'waiting-bootstrap')
+    }, 1500)
+  })
+}
+
 const bootstrap = async () => {
   const router = await import(/* webpackChunkName: "root" */'./router')
   const store = await import(/* webpackChunkName: "root" */'./store')
   const vuetify = await import(/* webpackChunkName: "plugins-vuetify" */'./plugins/vuetify')
-  const Shell = await import(/* webpackChunkName: "shell" */'./Shell.vue')
+
+  const Shell = () => ({
+    component: loadShell(),
+    loading: Pokeball,
+    delay: 0
+  })
+
+  const $app = document.getElementById('app')
+
+  if (!$app) {
+    return Promise
+      .reject(new Error('Missing #app element'))
+  }
 
   await onIdle()
 
@@ -28,20 +58,19 @@ const bootstrap = async () => {
     router: router.default,
     store: store.default,
     vuetify: vuetify.default,
-    async beforeMount () {
-      await onIdle()
-
-      document
-        .body
-        .classList
-        .remove('waiting-ready')
-    },
     // @ts-ignore
-    render: h => h(Shell.default)
-  }).$mount('#app')
+    render: h => h(Shell, { staticClass: 'ready' })
+  }).$mount($app)
 }
 
-setTimeout(() => {
+setTimeout(async () => {
+  document
+    .body
+    .classList
+    .add('waiting-bootstrap')
+
+  await onIdle()
+
   bootstrap()
     .catch(console.error)
-}, 900)
+}, 500)
