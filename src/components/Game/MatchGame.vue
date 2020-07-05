@@ -5,12 +5,13 @@ import { sampleSize, shuffle, sample, debounce, noop } from 'lodash-es'
 import { mapState } from 'vuex'
 import { speak } from '@/plugins/speech-synthesis'
 import { vibrate } from '@/plugins/vibration'
-import { ProgressBar, PokemonCard, ScoreBar } from '@/components/Card'
 import { loadPokemonList, Pokemon } from '@/data'
 import { onIdle } from '@/plugins/on-idle'
+import MainCard from './MainCard.vue'
 
 export default Vue.extend({
-  components: { PokemonCard, ScoreBar, ProgressBar },
+  name: 'MatchGame',
+  components: { MainCard },
   props: {
     name: String,
     title: String,
@@ -154,21 +155,17 @@ export default Vue.extend({
         />
     </div>
     <v-col v-if="ready" cols="12">
-      <PokemonCard
-        ref="currentPokemon"
-        :color="resultColor"
-        :pokemon="pokemon"
-        :shake="hasResult"
-        :visible="hasResult">
-          <ScoreBar
-            v-bind="{ title, name }"
-            :hits="score"
-            slot="top" />
-          <ProgressBar :active="hasResult" slot="top" />
-          <v-card-text v-if="hasResult">
-            {{ result ?  'Congratulations!' : 'Try Again ;)' }}
-          </v-card-text>
-        </PokemonCard>
+      <MainCard
+        v-bind="{
+          color: resultColor,
+          pokemon,
+          hasResult,
+          result,
+          title,
+          name,
+          score
+        }"
+      />
     </v-col>
     <v-col v-if="ready">
       <slot v-if="$scopedSlots.default" v-bind="{ options, select }"></slot>
