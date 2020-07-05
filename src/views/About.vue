@@ -36,17 +36,21 @@ export default Vue.extend({
           </v-avatar>
         </div>
         <v-card-actions>
-          <v-btn href="https://vinicius.dev" target="_blank" text>
+          <v-btn href="https://vinicius73.dev" target="_blank" text>
             <v-icon>mdi-web</v-icon>
-            vinicius.dev
+            vinicius73.dev
           </v-btn>
           <v-btn href="https://twitter.com/luizvinicius73" target="_blank" text>
             <v-icon>mdi-twitter</v-icon>
-            LuizVinicius73
+            <span class="hidden-sm-and-down">
+              LuizVinicius73
+            </span>
           </v-btn>
           <v-btn href="https://github.com/vinicius73" target="_blank" text>
             <v-icon>mdi-github</v-icon>
-            vinicius73
+            <span class="hidden-sm-and-down">
+              vinicius73
+            </span>
           </v-btn>
         </v-card-actions>
       </v-card>
