@@ -6,6 +6,6 @@ onIdle(() => {
     return
   }
 
-  screen.orientation.lock('portrait')
+  return screen.orientation.lock('portrait')
 })
   .catch(console.warn)
