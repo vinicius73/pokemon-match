@@ -6,7 +6,9 @@ process.env.VUE_APP_VERSION = pkg.version
 process.env.VUE_APP_CRITICAL_CSS = minify(
   fs.readFileSync('src/assets/critical.html', { encoding: 'utf-8' }), {
     removeAttributeQuotes: true,
-    minifyCSS: true
+    minifyCSS: {
+      level: 2
+    }
   }
 )
 
