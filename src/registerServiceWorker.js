@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 
 import { register } from 'register-service-worker'
-import { onIdle } from './plugins/on-idle'
+import { onReady } from './lib/ready'
 
 if (process.env.NODE_ENV === 'production') {
   const dispatchEvent = (name, meta, timeout = 8000) => {
@@ -16,7 +16,7 @@ if (process.env.NODE_ENV === 'production') {
     }, timeout)
   }
 
-  onIdle(() => {
+  onReady(() => {
     register(`${process.env.BASE_URL}service-worker.js`, {
       ready (sw) {
         dispatchEvent('sw:ready', { sw })
