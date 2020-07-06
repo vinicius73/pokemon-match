@@ -6,8 +6,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-
-const Layout = () => import(/* webpackChunkName: "layout" */ '@/components/Layout/Index.vue')
+import Layout from './Index.vue'
 
 export default Vue.extend({
   name: 'App',

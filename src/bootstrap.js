@@ -15,7 +15,7 @@ Vue.config.productionTip = process.env.NODE_ENV !== 'production'
 Vue.config.performance = process.env.NODE_ENV !== 'production'
 
 const loadShell = () => {
-  return onIdle(() => import(/* webpackChunkName: "shell" */'./Shell.vue'))
+  return onIdle(() => import(/* webpackChunkName: "shell" */'./components/Layout/Shell.vue'))
 }
 
 const bootstrap = async () => {
