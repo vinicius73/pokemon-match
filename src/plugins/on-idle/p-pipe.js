@@ -1,5 +1,4 @@
 // https://github.com/JasonPollman/p-compose
-// @ts-nocheck
 
 const promiseReducer = (current, next) => current.then(next)
 const hasNonFunction = fnArray => fnArray.some(fn => typeof fn !== 'function')

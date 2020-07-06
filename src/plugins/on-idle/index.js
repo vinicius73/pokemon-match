@@ -1,7 +1,6 @@
-import { VueConstructor } from 'vue/types/umd'
 import { serialOnIdle, onIdle } from './promise'
 
-const install = (Vue: VueConstructor) => {
+const install = (Vue) => {
   Object.defineProperty(Vue.prototype, '$onIdle', {
     value: serialOnIdle
   })

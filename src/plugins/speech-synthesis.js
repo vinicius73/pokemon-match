@@ -1,11 +1,11 @@
 /* eslint-disable no-console */
 const synth = window.speechSynthesis
 
-const hasSupport = (): boolean => {
+const hasSupport = () => {
   return synth !== undefined && synth.getVoices().length > 0
 }
 
-const speak = async (text: string): Promise<void> => {
+const speak = async (text) => {
   if (!synth) {
     console.warn('no speechSynthesis')
     return

@@ -1,9 +1,8 @@
-<script lang="ts">
-import Vue from 'vue'
+<script>
 import { keysIn, map, toString, sortBy } from 'lodash-es'
 import DebugList from '@/components/DebugList.vue'
 
-const generateList = (original: Record<string, unknown>): { key: string; value: string }[] => {
+const generateList = (original) => {
   const keys = sortBy(keysIn(original))
 
   return map(keys, (key) => {
@@ -14,38 +13,32 @@ const generateList = (original: Record<string, unknown>): { key: string; value: 
   })
 }
 
-export default Vue.extend({
+export default {
   name: 'DebugPage',
-  // @ts-ignore
   title: 'Debug 🐛',
   components: {
     DebugList
   },
   computed: {
     speechSynthesis () {
-      // @ts-ignore
       return generateList(window.speechSynthesis)
     },
     navigator () {
-      // @ts-ignore
       return generateList(navigator)
     },
     connection () {
       return generateList(
-        // @ts-ignore
         navigator.connection || navigator.mozConnection || navigator.webkitConnection || navigator.msConnection
       )
     },
     breakpoint () {
-      // @ts-ignore
       return generateList(this.$vuetify.breakpoint)
     },
     application () {
-      // @ts-ignore
       return generateList(this.$vuetify.application)
     }
   }
-})
+}
 </script>
 
 <template>

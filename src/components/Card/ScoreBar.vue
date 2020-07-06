@@ -1,18 +1,16 @@
-<script lang="ts">
-import Vue from 'vue'
-
+<script>
 const KEY = ':MAX_SCORE'
 
-const setMax = (game: string, val: number) => {
+const setMax = (game, val) => {
   localStorage.setItem(`${game}:${KEY}`, String(val))
 }
 
-const getMax = (game: string): number => {
+const getMax = game => {
   const val = localStorage.getItem(`${game}:${KEY}`)
   return Number(val || 0)
 }
 
-export default Vue.extend({
+export default {
   name: 'ScoreBar',
   props: {
     hits: Number,
@@ -32,12 +30,12 @@ export default Vue.extend({
     }
   },
   methods: {
-    setMax (val: number) {
+    setMax (val) {
       this.max = val
       setMax(this.name, val)
     }
   }
-})
+}
 </script>
 
 <template>

@@ -1,9 +1,8 @@
-<script lang="ts">
-import Vue from 'vue'
+<script>
 import { onIdle } from '@/plugins/on-idle'
 import { mapState, mapMutations } from 'vuex'
 
-export default Vue.extend({
+export default {
   name: 'Sidebar',
   data: () => ({
     version: process.env.VUE_APP_VERSION,
@@ -31,7 +30,7 @@ export default Vue.extend({
       this.model.speechSynthesis = this.speechSynthesis
     })
   }
-})
+}
 </script>
 
 <template>

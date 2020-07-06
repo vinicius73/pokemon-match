@@ -4,12 +4,11 @@ import { register } from 'register-service-worker'
 import { onIdle } from './plugins/on-idle'
 
 if (process.env.NODE_ENV === 'production') {
-  const dispatchEvent = (name: string, meta?: unknown, timeout = 8000) => {
+  const dispatchEvent = (name, meta, timeout = 8000) => {
     setTimeout(() => {
       const event = new Event(name)
 
       if (meta) {
-        // @ts-ignore
         event.meta = meta
       }
 

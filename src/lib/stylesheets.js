@@ -1,6 +1,6 @@
 import { onIdle } from '@/plugins/on-idle'
 
-const loadStylesheets = async (stylesheets: string[]) => {
+const loadStylesheets = async (stylesheets) => {
   const size = stylesheets.length
 
   for (let index = 0; index < size; index++) {

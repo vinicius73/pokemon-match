@@ -1,8 +1,7 @@
-import Vue from 'vue'
 import { map } from 'lodash-es'
 import Tag from './TypeTag'
 
-export default Vue.extend({
+export default {
   functional: true,
   props: {
     types: Array
@@ -14,4 +13,4 @@ export default Vue.extend({
       })
     })
   }
-})
+}

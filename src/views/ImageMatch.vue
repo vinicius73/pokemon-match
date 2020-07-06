@@ -1,14 +1,12 @@
-<script lang="ts">
-import Vue from 'vue'
+<script>
 import { MatchGame } from '@/components/Game'
 import { PokemonCard } from '@/components/Card'
 
-export default Vue.extend({
+export default {
   name: 'ImageMatch',
   components: { MatchGame, PokemonCard },
-  // @ts-ignore
   title: 'Image Match'
-})
+}
 </script>
 
 <template>

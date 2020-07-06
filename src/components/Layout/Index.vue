@@ -1,10 +1,9 @@
-<script lang="ts">
-import Vue from 'vue'
+<script>
 import { onIdle } from '@/plugins/on-idle'
 import Sidebar from './Sidebar.vue'
 import UpdateNotify from './UpdateNotify.vue'
 
-export default Vue.extend({
+export default {
   name: 'Layout',
   components: { Sidebar, UpdateNotify },
   data: () => ({
@@ -48,7 +47,7 @@ export default Vue.extend({
     // @ts-ignore
     window.removeEventListener('offline', this.$onOffline)
   }
-})
+}
 </script>
 
 <template>

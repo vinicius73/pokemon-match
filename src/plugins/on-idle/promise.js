@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-types */
-// @ts-nocheck
 import { PromisePipeFactory } from './p-pipe'
 import { isFunction, isArray } from 'lodash'
 const w = window
@@ -27,7 +25,7 @@ const subscribe = (() => {
  * @param {Function} fn
  * @returns {Promise<any>}
  */
-const onIdle = (fn: Function = undefined): Promise<unknown> => {
+const onIdle = (fn) => {
   return new Promise(resolve => {
     subscribe(() => {
       resolve(fn && fn())

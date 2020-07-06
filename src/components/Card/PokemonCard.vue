@@ -1,10 +1,8 @@
-<script lang="ts">
-import Vue from 'vue'
-import { Pokemon } from '@/data'
+<script>
 import Types from './Types'
 const CDN = 'https://images.weserv.nl/?url=img.pokemondb.net'
 
-export default Vue.extend({
+export default {
   name: 'PokemonImage',
   components: { Types },
   props: {
@@ -36,21 +34,21 @@ export default Vue.extend({
         : 'accent'
     },
     name () {
-      return (this.pokemon as Pokemon).name
+      return this.pokemon.name
     },
-    title (): string {
+    title () {
       return this.visible
-        ? this.name as string
+        ? this.name
         : 'Who\'s that Pokémon?'
     },
-    src (): string {
+    src () {
       const { artwork, name } = this
       return artwork
         ? `${CDN}/artwork/${name}.jpg`
         : `${CDN}/sprites/home/normal/${name}.png`
     }
   }
-})
+}
 </script>
 
 <template>

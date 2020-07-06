@@ -1,14 +1,13 @@
-import Vue from 'vue'
 import { VChip } from 'vuetify/lib'
 import { Types as Colors } from '@/data/colors'
 
-export default Vue.extend({
+export default {
   functional: true,
   props: {
     type: String
   },
   render (h, { props }) {
-    const type = props.type as keyof typeof Colors
+    const type = props.type
 
     return h(VChip, {
       staticClass: 'ml-1',
@@ -18,4 +17,4 @@ export default Vue.extend({
       }
     }, type)
   }
-})
+}

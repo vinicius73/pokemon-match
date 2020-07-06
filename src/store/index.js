@@ -1,11 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import sw from './sw.plugin'
-import { PokeMatchState } from './types'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store<PokeMatchState>({
+export default new Vuex.Store({
   state: {
     hasSynthesisSupport: true,
     vibration: true,

@@ -1,8 +1,7 @@
-<script lang="ts">
-import Vue from 'vue'
+<script>
 import { ProgressBar, PokemonCard, ScoreBar } from '@/components/Card'
 
-export default Vue.extend({
+export default {
   name: 'MainCard',
   components: { PokemonCard, ScoreBar, ProgressBar },
   props: {
@@ -17,7 +16,7 @@ export default Vue.extend({
       required: false
     }
   }
-})
+}
 </script>
 
 <template>

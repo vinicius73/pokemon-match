@@ -1,13 +1,11 @@
-<script lang="ts">
-import Vue from 'vue'
+<script>
 import { MatchGame } from '@/components/Game'
 
-export default Vue.extend({
+export default {
   name: 'NameMatch',
   components: { MatchGame },
-  // @ts-ignore
   title: 'Name Match'
-})
+}
 </script>
 
 <template>

@@ -1,6 +1,4 @@
-import Vue, { VNodeData } from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'Pokeball',
   functional: true,
   props: {
@@ -16,7 +14,7 @@ export default Vue.extend({
       h('div', { class: 'pokeball__button' })
     ])
 
-    const options: VNodeData = {
+    const options = {
       staticClass: data.staticClass
         ? `${rootClass} ${data.staticClass}`
         : rootClass
@@ -30,4 +28,4 @@ export default Vue.extend({
 
     return h(props.tag, options, [inner])
   }
-})
+}

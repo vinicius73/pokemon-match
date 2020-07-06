@@ -1,15 +1,14 @@
-<script lang="ts">
+<script>
 /* eslint-disable no-console */
-import Vue from 'vue'
 import { sampleSize, shuffle, sample, debounce, noop } from 'lodash-es'
 import { mapState } from 'vuex'
 import { speak } from '@/plugins/speech-synthesis'
 import { vibrate } from '@/plugins/vibration'
-import { loadPokemonList, Pokemon } from '@/data'
+import { loadPokemonList } from '@/data'
 import { onIdle } from '@/plugins/on-idle'
 import MainCard from './MainCard.vue'
 
-export default Vue.extend({
+export default {
   name: 'MatchGame',
   components: { MainCard },
   props: {
@@ -25,17 +24,17 @@ export default Vue.extend({
       hideAll: true,
       ready: false,
       score: 0,
-      result: null as boolean | null,
-      list: [] as ReadonlyArray<Pokemon>,
-      pokemon: {} as Pokemon
+      result: null,
+      list: [],
+      pokemon: {}
     }
   },
   computed: {
     ...mapState(['speechSynthesis', 'vibration']),
-    hasResult (): boolean {
+    hasResult () {
       return this.result !== null
     },
-    resultColor (): string | null {
+    resultColor () {
       if (this.hasResult) {
         return this.result
           ? 'success'
@@ -44,14 +43,14 @@ export default Vue.extend({
 
       return null
     },
-    optionsSize (): number {
+    optionsSize () {
       if (this.size > 0) {
         return this.size
       }
 
       return this.$vuetify.breakpoint.xs ? 3 : 4
     },
-    options (): Pokemon[] {
+    options () {
       if (this.hideAll) {
         return []
       }
@@ -86,25 +85,20 @@ export default Vue.extend({
   },
   methods: {
     next: debounce(function () {
-      // @ts-ignore
       this.result = null
-      // @ts-ignore
       onIdle(async () => {
         await onIdle(() => {
-          // @ts-ignore
           this.pokemon = sample(this.list)
         })
           .then(() => {
-            // @ts-ignore
             this.$vuetify.goTo(0)
           })
           .then(() => {
-            // @ts-ignore
             this.hideAll = false
           })
       })
     }, 2000),
-    select (name: string) {
+    select (name) {
       if (this.hasResult) {
         return
       }
@@ -121,7 +115,6 @@ export default Vue.extend({
       }
 
       onIdle(() => {
-        // @ts-ignore
         this.$vuetify.goTo(0)
         this.next()
 
@@ -136,13 +129,13 @@ export default Vue.extend({
       this.list = await loadPokemonList()
     })
       .then(() => {
-        this.pokemon = sample(this.list) as Pokemon
+        this.pokemon = sample(this.list)
       })
       .then(() => {
         this.ready = true
       })
   }
-})
+}
 </script>
 
 <template>

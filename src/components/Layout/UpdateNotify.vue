@@ -1,9 +1,8 @@
-<script lang="ts">
-import Vue from 'vue'
+<script>
 import { mapState, mapMutations } from 'vuex'
 import { onIdle } from '@/plugins/on-idle'
 
-export default Vue.extend({
+export default {
   name: 'UpdateNotify',
   data: () => ({
     loading: false
@@ -23,7 +22,7 @@ export default Vue.extend({
       this.setHasUpdate(false)
     }
   }
-})
+}
 </script>
 
 <template>

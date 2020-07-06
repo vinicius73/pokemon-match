@@ -1,6 +1,4 @@
-import { RouteConfig } from 'vue-router'
-
-const routes: Array<RouteConfig> = [
+const routes = [
   {
     path: '/',
     name: 'Home',

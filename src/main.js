@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
-
+// @ts-nocheck
 import Vue from 'vue'
-// @ts-ignore
 import PageTitle from 'vue-page-title'
 import { install as OnIdlePlugin, onIdle } from './plugins/on-idle'
 import { loadStylesheets } from './lib/stylesheets'
