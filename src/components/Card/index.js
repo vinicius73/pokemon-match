@@ -2,7 +2,7 @@ export const PokemonCard = () =>
   import(/* webpackChunkName: "pokemon-card" */'./PokemonCard.vue')
 
 export const ProgressBar = () =>
-  import(/* webpackChunkName: "progress-bar" */'./ProgressBar.vue')
+  import(/* webpackChunkName: "pokemon-card" */'./ProgressBar.vue')
 
 export const ScoreBar = () =>
-  import(/* webpackChunkName: "score-bar" */'./ScoreBar.vue')
+  import(/* webpackChunkName: "pokemon-card" */'./ScoreBar.vue')
