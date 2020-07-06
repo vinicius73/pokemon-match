@@ -37,6 +37,13 @@ module.exports = {
       }
     }
   },
+  chainWebpack: config => {
+    config.plugin('prefetch').tap(options => {
+      options[0].fileBlacklist = options[0].fileBlacklist || []
+      options[0].fileBlacklist.push(/page-(.)+?\.js$/)
+      return options
+    })
+  },
   pwa: {
     name: 'Pokémon Match - Game Collection',
     themeColor: '#b72c3d',

@@ -21,7 +21,7 @@ const loadShell = () => {
 const bootstrap = async () => {
   const router = await import(/* webpackChunkName: "root" */'./router')
   const store = await import(/* webpackChunkName: "root" */'./store')
-  const vuetify = await import(/* webpackChunkName: "plugins-vuetify" */'./plugins/vuetify')
+  const vuetify = await import(/* webpackChunkName: "root" */'./plugins/vuetify')
 
   const Shell = () => ({
     component: loadShell(),

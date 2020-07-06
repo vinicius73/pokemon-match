@@ -2,7 +2,7 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: () => import(/* webpackChunkName: "page-home" */ '../views/Home.vue')
+    component: () => import(/* webpackPrefetch: true, webpackChunkName: "page-home" */ '../views/Home.vue')
   },
   {
     path: '/image-match',
