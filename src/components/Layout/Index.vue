@@ -19,7 +19,7 @@ export default {
     }
   },
   methods: {
-    showDidebar () {
+    showSidebar () {
       this.sidebar = true
     }
   },
@@ -59,7 +59,7 @@ export default {
       flat
       dark
     >
-      <v-app-bar-nav-icon @click="showDidebar"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon aria-label="show menu" @click="showSidebar"></v-app-bar-nav-icon>
       <v-toolbar-title>{{ title }}</v-toolbar-title>
       <v-spacer></v-spacer>
       <router-link :to="{ name: 'Home' }">
