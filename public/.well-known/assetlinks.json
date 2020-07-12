@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "dev.vinicius73.pokemon_match.twa",
+      "sha256_cert_fingerprints": [
+        "DD:3D:C8:68:BF:A0:57:AC:7D:09:9F:C2:F8:4A:94:C3:84:68:7A:FD:A0:00:33:25:70:12:2A:72:24:F5:73:AF"
+      ]
+    }
+  }
+]
