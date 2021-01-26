@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 const hasSupport = () => {
-  return navigator && navigator.vibrate
+  return navigator && !!navigator.vibrate
 }
 
 const vibrate = (val = [200]) => {

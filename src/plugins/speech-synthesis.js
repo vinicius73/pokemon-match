@@ -2,7 +2,7 @@
 const synth = window.speechSynthesis
 
 const hasSupport = () => {
-  return synth !== undefined && synth.getVoices().length > 0
+  return true // synth !== undefined && synth.getVoices().length > 0
 }
 
 const speak = async (text) => {
