@@ -7,7 +7,7 @@ import { map, toUpper } from 'lodash-es'
 export default {
   name: 'Sidebar',
   generations: map(GENERATIONS, code => ({
-    text: `Gen. ${toUpper(code)}`,
+    text: `Generation ${toUpper(code)}`,
     value: code
   })),
   data: () => ({
