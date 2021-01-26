@@ -1,7 +1,7 @@
 <script>
-import { onIdle } from '@/plugins/on-idle'
 import Sidebar from './Sidebar.vue'
 import UpdateNotify from './UpdateNotify.vue'
+import { mapState } from 'vuex'
 
 export default {
   name: 'Layout',
@@ -11,6 +11,7 @@ export default {
     online: navigator.onLine
   }),
   computed: {
+    ...mapState(['isOnline', 'cachingImages']),
     title () {
       return this.$route.name === 'Home'
         ? 'Pokémon Match'
@@ -22,30 +23,6 @@ export default {
     showSidebar () {
       this.sidebar = true
     }
-  },
-  mounted () {
-    // @ts-ignore
-    this.$onOnline = () => {
-      this.online = true
-    }
-
-    // @ts-ignore
-    this.$onOffline = () => {
-      this.online = false
-    }
-
-    onIdle(() => {
-      // @ts-ignore
-      window.addEventListener('online', this.$onOnline)
-      // @ts-ignore
-      window.addEventListener('offline', this.$onOffline)
-    })
-  },
-  beforeDestroy () {
-    // @ts-ignore
-    window.removeEventListener('online', this.$onOnline)
-    // @ts-ignore
-    window.removeEventListener('offline', this.$onOffline)
   }
 }
 </script>
@@ -63,8 +40,11 @@ export default {
       <v-toolbar-title>{{ title }}</v-toolbar-title>
       <v-spacer></v-spacer>
       <router-link :to="{ name: 'Home' }">
+        <v-icon class="animation-spin" v-if="cachingImages">
+          mdi-cached
+        </v-icon>
         <v-img
-          v-if="online"
+          v-else-if="isOnline"
           alt="Pokémon Match"
           class="shrink mr-2"
           contain

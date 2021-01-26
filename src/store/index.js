@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import { GENERATIONS } from '@/data'
 import sw from './sw.plugin'
+import nav from './navigator.plugin'
 import cache, { getCache } from './cache.plugin'
 
 Vue.use(Vuex)
@@ -9,6 +10,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     hasUpdate: false,
+    isOnline: navigator.onLine,
+    cachingImages: false,
     hasSynthesisSupport: true,
     hasVibrationSupport: true,
     generation: GENERATIONS[0],
@@ -38,11 +41,17 @@ export default new Vuex.Store({
     },
     setGeneration (state, val) {
       state.generation = val
+    },
+    setCachingImages (state, val) {
+      state.cachingImages = val
+    },
+    setIsOnline (state, val) {
+      state.isOnline = !!val
     }
   },
   actions: {
   },
   modules: {
   },
-  plugins: [cache, sw]
+  plugins: [nav, cache, sw]
 })

@@ -14,6 +14,12 @@
   animation-name: shake;
 }
 
+.animation-spin {
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-name: spin;
+}
+
 @for $i from 0 through 20 {
   .transition-group-delay > div:nth-child(#{$i + 1}) {
     animation-delay: 0.1s * $i;
@@ -47,4 +53,9 @@
   0%, 100% {transform: translateX(0);}
   10%, 30%, 50%, 70%, 90% {transform: translateX(-2px);}
   20%, 40%, 60%, 80% {transform: translateX(2px);}
+}
+
+@keyframes spin {
+  from { transform:rotate(0deg); }
+  to { transform:rotate(360deg); }
 }

@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-expressions, no-console */
-import { get, map } from 'lodash-es'
+import { get, map, debounce } from 'lodash-es'
 import { loadPokemonList } from '@/data'
 
 const CACHE_CMD = 'SET_POKEMON_IMAGE_CACHE'
@@ -36,26 +36,47 @@ export default (store) => {
       return
     }
 
-    cached = true
-
-    const swr = get(event, ['meta', 'sw'])
-
-    const sw = swr.active
+    const sw = get(event, ['meta', 'sw', 'active'])
 
     if (!sw) {
       return
     }
+
+    cached = true
 
     if (!allowDownload()) {
       console.warn('Skiping download pokemon images')
       return
     }
 
-    const list = await loadPokemonList()
+    navigator.serviceWorker.addEventListener('message', ({ data }) => {
+      const { action, state: value } = data || {}
 
-    sw.postMessage({
-      action: CACHE_CMD,
-      data: map(list, 'name')
+      if (action !== 'cache:state') {
+        return
+      }
+
+      store.commit('setCachingImages', value === 'caching')
     })
+
+    async function applyCache (generation) {
+      try {
+        const list = await loadPokemonList(generation)
+
+        sw.postMessage({
+          action: CACHE_CMD,
+          data: map(list, 'name')
+        })
+      } catch (err) {
+        console.warn(err)
+      }
+    }
+
+    applyCache(store.state.generation)
+
+    store.watch(
+      () => store.state.generation,
+      debounce(applyCache, 3000)
+    )
   })
 }

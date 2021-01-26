@@ -2,11 +2,11 @@ const IMG_CDN = 'https://images.weserv.nl/?url=img.pokemondb.net'
 const IMAGE_CACHE_NAME = 'pokemon-images'
 const CDN_CACHE_NAME = 'cdn'
 
-const imgRgx = new RegExp(/^(https:\/\/images.weserv.nl\/)/)
+const imgRgx = /^(https:\/\/images.weserv.nl\/)/
 const cdnRgx = [
-  new RegExp(/^(https:\/\/fonts.googleapis.com\/)/),
-  new RegExp(/^(https:\/\/fonts.gstatic.com\/)/),
-  new RegExp(/^(https:\/\/cdn.jsdelivr.net\/)/)
+  /^(https:\/\/fonts.googleapis.com\/)/,
+  /^(https:\/\/fonts.gstatic.com\/)/,
+  /^(https:\/\/cdn.jsdelivr.net\/)/
 ]
 
 const buildHandle = cacheName => {
@@ -30,6 +30,14 @@ self.workbox.routing.registerRoute(
   buildHandle(CDN_CACHE_NAME)
 )
 
+const postMessage = (client, data) => {
+  if (!client) {
+    return
+  }
+
+  client.postMessage(data)
+}
+
 const cachePokemonImages = async names => {
   const data = names.map(name => {
     return `${IMG_CDN}/sprites/home/normal/${name}.png`
@@ -50,5 +58,15 @@ self.addEventListener('message', async event => {
     return
   }
 
+  // eslint-disable-next-line no-undef
+  console.log(clients, event)
+
+  // eslint-disable-next-line no-undef
+  const client = await clients.get(event.clientId || event.source.id)
+
+  postMessage(client, { action: 'cache:state', state: 'caching' })
+
   await cachePokemonImages(event.data.data || [])
+
+  postMessage(client, { action: 'cache:state', state: 'cached' })
 })
