@@ -1,4 +1,5 @@
 <script>
+import { get } from 'lodash-es'
 import Types from './Types'
 const CDN = 'https://images.weserv.nl/?url=img.pokemondb.net'
 
@@ -34,6 +35,9 @@ export default {
         : 'accent'
     },
     name () {
+      return get(this.pokemon, ['names', 'en'], this.pokemon.name)
+    },
+    key () {
       return this.pokemon.name
     },
     title () {
@@ -42,10 +46,10 @@ export default {
         : 'Who\'s that Pokémon?'
     },
     src () {
-      const { artwork, name } = this
+      const { artwork, key } = this
       return artwork
-        ? `${CDN}/artwork/${name}.jpg`
-        : `${CDN}/sprites/home/normal/${name}.png`
+        ? `${CDN}/artwork/${key}.jpg`
+        : `${CDN}/sprites/home/normal/${key}.png`
     }
   }
 }
