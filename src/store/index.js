@@ -1,17 +1,21 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { GENERATIONS } from '@/data'
 import sw from './sw.plugin'
+import cache, { getCache } from './cache.plugin'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    hasSynthesisSupport: true,
-    vibration: true,
-    hasVibrationSupport: true,
-    speechSynthesis: false,
     hasUpdate: false,
-    SWReady: false
+    hasSynthesisSupport: true,
+    hasVibrationSupport: true,
+    generation: GENERATIONS[0],
+    vibration: true,
+    speechSynthesis: false,
+    SWReady: false,
+    ...getCache()
   },
   mutations: {
     setHasSynthesisSupport (state, val) {
@@ -31,11 +35,14 @@ export default new Vuex.Store({
     },
     setSWReady (state, val) {
       state.SWReady = !!val
+    },
+    setGeneration (state, val) {
+      state.generation = val
     }
   },
   actions: {
   },
   modules: {
   },
-  plugins: [sw]
+  plugins: [cache, sw]
 })

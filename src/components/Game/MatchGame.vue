@@ -30,7 +30,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['speechSynthesis', 'vibration']),
+    ...mapState(['speechSynthesis', 'vibration', 'generation']),
     hasResult () {
       return this.result !== null
     },
@@ -81,6 +81,9 @@ export default {
       onIdle(() => {
         this.hideAll = false
       })
+    },
+    generation () {
+      this.loadPokemon()
     }
   },
   methods: {
@@ -122,18 +125,25 @@ export default {
           this.hideAll = true
         }, 700)
       })
+    },
+    loadPokemon () {
+      this.ready = false
+      return onIdle(async () => {
+        this.list = await loadPokemonList(this.generation)
+      })
+        .then(() => {
+          this.pokemon = sample(this.list)
+        })
+        .catch(err => {
+          console.warn(err)
+        })
+        .then(() => {
+          this.ready = true
+        })
     }
   },
-  async mounted () {
-    onIdle(async () => {
-      this.list = await loadPokemonList()
-    })
-      .then(() => {
-        this.pokemon = sample(this.list)
-      })
-      .then(() => {
-        this.ready = true
-      })
+  mounted () {
+    this.loadPokemon()
   }
 }
 </script>

@@ -1,9 +1,15 @@
 <script>
 import { onIdle } from '@/plugins/on-idle'
 import { mapState, mapMutations } from 'vuex'
+import { GENERATIONS } from '@/data'
+import { map, toUpper } from 'lodash-es'
 
 export default {
   name: 'Sidebar',
+  generations: map(GENERATIONS, code => ({
+    text: `Gen. ${toUpper(code)}`,
+    value: code
+  })),
   data: () => ({
     version: process.env.VUE_APP_VERSION,
     model: {
@@ -15,14 +21,20 @@ export default {
     value: Boolean
   },
   computed: {
-    ...mapState(['speechSynthesis', 'vibration', 'hasSynthesisSupport', 'hasVibrationSupport'])
+    ...mapState([
+      'speechSynthesis',
+      'generation',
+      'vibration',
+      'hasSynthesisSupport',
+      'hasVibrationSupport'
+    ])
   },
   watch: {
     'model.vibration': 'setVibration',
     'model.speechSynthesis': 'setSpeechSynthesis'
   },
   methods: {
-    ...mapMutations(['setSpeechSynthesis', 'setVibration'])
+    ...mapMutations(['setSpeechSynthesis', 'setVibration', 'setGeneration'])
   },
   mounted () {
     onIdle(() => {
@@ -92,6 +104,19 @@ export default {
       </v-list-item-icon>
       <v-list-item-content>
         <v-list-item-title>About</v-list-item-title>
+      </v-list-item-content>
+    </v-list-item>
+
+    <v-list-item>
+      <v-list-item-content>
+        <v-select
+          :items="$options.generations"
+          :value="generation"
+          @change="setGeneration"
+          label="Generation"
+          hint="Generation of Pokémon"
+          solo
+        ></v-select>
       </v-list-item-content>
     </v-list-item>
 
