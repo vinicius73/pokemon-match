@@ -4,35 +4,26 @@ const axios = require('axios')
 const pSeries = require('p-series')
 const pMemoize = require('p-memoize')
 
-const { map, reduce, uniq, filter, some } = require('lodash')
+const { map, reduce, uniq, filter } = require('lodash')
 
-const blockList = [
-  '-gmax',
-  '-galar',
-  '-cap',
-  '-alola',
-  '-mega',
-  '-mega-x',
-  '-mega-y',
-  '-cosplay',
-  '-libre',
-  '-pop-star',
-  '-belle',
-  '-primal',
-  '-large',
-  '-therian',
-  '-small'
-]
-
-const specials = ['pikachu-original-cap']
+const LANGUAGES = Object.freeze(['en'])
 
 const BASE_URL = 'https://pokeapi.co/api/v2'
 const TARGET = path.resolve(__dirname, '../src/data/raw')
+const TARGET_TYPES = ['pokemon']
 
 axios.defaults.baseURL = BASE_URL
+axios.defaults.timeout = 6000
 
-const isValidPokemon = name => {
-  return !some(blockList, word => name.endsWith(word))
+const extractNames = names => {
+  return reduce(names, (acc, row) => {
+    const key = row.language.name
+    if (LANGUAGES.includes(key)) {
+      acc[key] = row.name
+    }
+
+    return acc
+  }, {})
 }
 
 const loadGenerations = () => {
@@ -44,27 +35,40 @@ const loadGenerations = () => {
     })))
 }
 
-const load = (generationId) => {
+const loadSpecies = (generationId) => {
   return axios.get(`/generation/${generationId}/`)
     .then(({ data }) => data.pokemon_species)
-    .then(result => map(result, 'name'))
-    .then(names => filter(names, isValidPokemon))
-    .then(names => [...names, ...specials])
 }
 
-const loadDetails = pMemoize(name => {
-  return axios.get(`${BASE_URL}/pokemon/${name}`)
+const loadExtra = pMemoize(name => {
+  return axios.get(`/pokemon/${name}`)
     .then(({ data }) => data)
-    .then(({ id, name, types, abilities }) => {
+    .then(({ types, abilities }) => ({
+      types: map(types, 'type.name')
+      // abilities: map(abilities, 'ability.name')
+    }))
+    .catch(err => {
+      return Promise.reject(new Error(`[loadExtra] ${err.message}`))
+    })
+})
+
+const loadDetails = pMemoize(param => {
+  const [url, name] = param.split('#')
+
+  return axios.get(url)
+    .then(({ data }) => data)
+    .then(async ({ id, name, names }) => {
+      const extra = await loadExtra(name)
+
       return {
         id,
         name,
-        abilities: map(abilities, 'ability.name'),
-        types: map(types, 'type.name')
+        names: extractNames(names),
+        ...extra
       }
     })
     .catch(err => {
-      console.log(`[${name}] ${err.message}`)
+      console.error(`[err][${name}]${err.message}`)
       return false
     })
 })
@@ -80,11 +84,11 @@ const extractCollection = (data, field) => {
 }
 
 const extractData = data => {
-  // const types = extractCollection(data, 'types')
+  const types = extractCollection(data, 'types')
   // const abilities = extractCollection(data, 'abilities')
 
   return {
-    // types,
+    types,
     // abilities,
     pokemon: data
   }
@@ -102,10 +106,12 @@ console.log('Loading pokémon list')
 const generateData = generation => {
   console.group(generation.name)
 
-  return load(generation.id)
+  return loadSpecies(generation.id)
     .then(result => {
       console.log('Loading pokémon data')
-      return Promise.all(map(result, loadDetails))
+      return Promise.all(
+        map(result, (data) => loadDetails(`${data.url}#${data.name}`))
+      )
     })
     .then(result => filter(result, Boolean))
     .then(result => extractData(result))
@@ -113,9 +119,9 @@ const generateData = generation => {
       console.log('Storing data')
       return Promise.all(
         map(
-          Object.entries(result),
-          ([key, value]) => {
-            return storeFile(`${generation.name}-${key}`, value)
+          TARGET_TYPES,
+          (key) => {
+            return storeFile(`${generation.name}-${key}`, result[key])
           }
         )
       )
@@ -136,7 +142,7 @@ loadGenerations()
   })
   .then(list => pSeries(list))
   .catch(err => {
-    console.error(err)
+    console.error(`[err] ${err.message}`)
   })
   .then(() => {
     console.groupEnd('ganerate')
