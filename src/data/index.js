@@ -1,28 +1,25 @@
 import { map } from 'lodash-es'
 
+const GENERATIONS = Object.freeze(
+  ['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'vii']
+)
+
 function freeze (list) {
   return Object.freeze(
     map(list, row => Object.freeze(row))
   )
 }
 
-const loadPokemonList = () => {
-  return import(/* webpackChunkName: "data-pokemon" */'./raw/pokemon.json')
-    .then(result => freeze(result.default))
-}
-
-const loadAbilitiesList = () => {
-  return import(/* webpackChunkName: "data-abilities" */ './raw/abilities.json')
-    .then(result => freeze(result.default))
-}
-
-const loadTypesList = () => {
-  return import(/* webpackChunkName: "data-types" */ './raw/types.json')
+const loadPokemonList = (generation = GENERATIONS[0]) => {
+  return import(
+  /* webpackChunkName: "pokemon-data" */
+  /* webpackMode: "lazy" */
+    `./raw/generation-${generation}-pokemon.json`
+  )
     .then(result => freeze(result.default))
 }
 
 export {
-  loadPokemonList,
-  loadAbilitiesList,
-  loadTypesList
+  GENERATIONS,
+  loadPokemonList
 }

@@ -36,6 +36,8 @@
     "eslint-plugin-standard": "^5.0.0",
     "eslint-plugin-vue": "^7.5.0",
     "html-minifier": "^4.0.0",
+    "p-memoize": "^4.0.1",
+    "p-series": "^2.1.0",
     "sass": "^1.32.5",
     "sass-loader": "^10.1.1",
     "vue-cli-plugin-vuetify": "~2.0.9",
