@@ -10,6 +10,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     hasUpdate: false,
+    hasCache: false,
+    allowCache: false,
     isOnline: navigator.onLine,
     cachingImages: false,
     hasSynthesisSupport: true,
@@ -47,6 +49,15 @@ export default new Vuex.Store({
     },
     setIsOnline (state, val) {
       state.isOnline = !!val
+    },
+    setAllowCache (state, val) {
+      state.allowCache = !!val
+    },
+    setHasCache (state, val) {
+      state.hasCache = !!val
+    },
+    downloadAll () {
+      // do nothing
     }
   },
   actions: {

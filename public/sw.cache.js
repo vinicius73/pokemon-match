@@ -59,9 +59,6 @@ self.addEventListener('message', async event => {
   }
 
   // eslint-disable-next-line no-undef
-  console.log(clients, event)
-
-  // eslint-disable-next-line no-undef
   const client = await clients.get(event.clientId || event.source.id)
 
   postMessage(client, { action: 'cache:state', state: 'caching' })

@@ -22,6 +22,8 @@ export default (store) => {
   const update = debounce((state) => {
     onIdle(() => {
       return pick(state, [
+        'allowCache',
+        'hasCache',
         'generation',
         'vibration',
         'speechSynthesis'

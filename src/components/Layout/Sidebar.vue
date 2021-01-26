@@ -26,15 +26,26 @@ export default {
       'generation',
       'vibration',
       'hasSynthesisSupport',
-      'hasVibrationSupport'
-    ])
+      'hasVibrationSupport',
+      'cachingImages',
+      'hasCache',
+      'SWReady'
+    ]),
+    showDownloadButton () {
+      return this.cachingImages || (this.SWReady && !this.hasCache)
+    }
   },
   watch: {
     'model.vibration': 'setVibration',
     'model.speechSynthesis': 'setSpeechSynthesis'
   },
   methods: {
-    ...mapMutations(['setSpeechSynthesis', 'setVibration', 'setGeneration'])
+    ...mapMutations([
+      'setSpeechSynthesis',
+      'setVibration',
+      'setGeneration',
+      'downloadAll'
+    ])
   },
   mounted () {
     onIdle(() => {
@@ -117,6 +128,18 @@ export default {
           hint="Generation of Pokémon"
           solo
         ></v-select>
+      </v-list-item-content>
+    </v-list-item>
+
+    <v-list-item @click="downloadAll" v-if="showDownloadButton">
+      <v-list-item-content>
+        <v-icon class="animation-spin" v-if="cachingImages">
+          mdi-cached
+        </v-icon>
+        <v-btn v-else>
+          <v-icon>mdi-progress-download</v-icon>
+          Download all images
+        </v-btn>
       </v-list-item-content>
     </v-list-item>
 

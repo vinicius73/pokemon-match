@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-expressions, no-console */
-import { get, map, debounce } from 'lodash-es'
-import { loadPokemonList } from '@/data'
+import { map, debounce } from 'lodash-es'
+import { loadPokemonList, loadAllPokemonList } from '@/data'
+import { onIdle } from '@/plugins/on-idle'
 
 const CACHE_CMD = 'SET_POKEMON_IMAGE_CACHE'
 
@@ -20,63 +21,99 @@ const allowDownload = () => {
   return conn.type === 'wifi' || conn.effectiveType === '4g'
 }
 
-export default (store) => {
-  let cached = false
+export default async (store) => {
+  let listenerOn = false
 
   document.addEventListener('sw:update', () => {
-    store.commit('setHasUpdate', true)
+    store.commit('setHasCache', false)
+    onIdle(() => store.commit('setHasUpdate', true))
   })
 
   document.addEventListener('sw:ready', async () => {
-    store.commit('setSWReady', true)
+    if (store.state.allowcache) {
+      store.commit('setHasCache', false)
+      store.commit('setSWReady', true)
+    }
   })
 
-  document.addEventListener('sw:cached', async (event) => {
-    if (cached) {
-      return
-    }
+  document.addEventListener('sw:cached', async () => {
+    store.commit('setSWReady', true)
+    applyCache(store.state.generation)
+    listeners()
+  })
 
-    const sw = get(event, ['meta', 'sw', 'active'])
+  store.commit('setAllowCache', allowDownload())
 
-    if (!sw) {
-      return
-    }
+  async function applyCache (generation) {
+    try {
+      console.log(`Caching ${generation === null ? 'all generations' : generation}`)
 
-    cached = true
+      const list = generation === null
+        ? await loadAllPokemonList()
+        : await loadPokemonList(generation)
 
-    if (!allowDownload()) {
-      console.warn('Skiping download pokemon images')
-      return
-    }
-
-    navigator.serviceWorker.addEventListener('message', ({ data }) => {
-      const { action, state: value } = data || {}
-
-      if (action !== 'cache:state') {
-        return
-      }
-
-      store.commit('setCachingImages', value === 'caching')
-    })
-
-    async function applyCache (generation) {
-      try {
-        const list = await loadPokemonList(generation)
-
-        sw.postMessage({
+      navigator
+        .serviceWorker
+        .controller
+        .postMessage({
           action: CACHE_CMD,
           data: map(list, 'name')
         })
-      } catch (err) {
-        console.warn(err)
-      }
+    } catch (err) {
+      console.warn(err)
+    }
+  }
+
+  function listeners () {
+    if (listenerOn) {
+      return
     }
 
-    applyCache(store.state.generation)
+    listenerOn = true
 
     store.watch(
-      () => store.state.generation,
-      debounce(applyCache, 3000)
+      () => ({
+        generation: store.state.generation,
+        allowcache: store.state.allowcache
+      }),
+      debounce(({ generation }) => applyCache(generation), 1000)
     )
-  })
+
+    let subscribe = store.subscribe((mutation, state) => {
+      if (mutation.type !== 'downloadAll') {
+        return
+      }
+
+      console.log('Caching all images...')
+
+      subscribe()
+
+      subscribe = null // force gc
+
+      applyCache(null)
+        .then(() => store.commit('setHasCache', true))
+    })
+
+    navigator
+      .serviceWorker
+      .addEventListener('message', ({ data }) => {
+        const { action, state: value } = data || {}
+
+        if (action !== 'cache:state') {
+          return
+        }
+
+        store.commit('setCachingImages', value === 'caching')
+      })
+  }
+
+  // eslint-disable-next-line no-lone-blocks
+  {
+    if (!navigator.serviceWorker) {
+      return
+    }
+
+    store.commit('setSWReady', true)
+    listeners()
+  }
 }

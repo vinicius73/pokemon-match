@@ -1,4 +1,5 @@
-import { map } from 'lodash-es'
+import { map, flatten, uniqBy } from 'lodash-es'
+import { onIdle } from '@/plugins/on-idle'
 
 const GENERATIONS = Object.freeze(
   ['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'vii']
@@ -19,7 +20,16 @@ const loadPokemonList = (generation = GENERATIONS[0]) => {
     .then(result => freeze(result.default))
 }
 
+const loadAllPokemonList = () => onIdle(() => {
+  const promises = map(GENERATIONS, gen => loadPokemonList(gen))
+
+  return Promise.all(promises)
+    .then(lists => flatten(lists))
+    .then(list => uniqBy(list, ({ name }) => name))
+})
+
 export {
   GENERATIONS,
+  loadAllPokemonList,
   loadPokemonList
 }
