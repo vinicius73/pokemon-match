@@ -19,7 +19,7 @@ export default {
         color="info">
         <v-card-title
           class="headline"
-          v-text="pokemon.name" />
+          v-text="pokemon.names.en" />
       </v-card>
     </template>
   </MatchGame>
