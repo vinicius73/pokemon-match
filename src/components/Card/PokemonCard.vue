@@ -1,7 +1,7 @@
 <script>
 import { get } from 'lodash-es'
 import Types from './Types'
-const CDN = 'https://images.weserv.nl/?url=img.pokemondb.net'
+const CDN = 'https://img.pokemondb.net'
 
 export default {
   name: 'PokemonImage',

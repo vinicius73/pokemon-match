@@ -1,4 +1,4 @@
-const IMG_CDN = 'https://images.weserv.nl/?url=img.pokemondb.net'
+const IMG_CDN = 'https://url=img.pokemondb.net'
 const IMAGE_CACHE_NAME = 'pokemon-images'
 const CDN_CACHE_NAME = 'cdn'
 
