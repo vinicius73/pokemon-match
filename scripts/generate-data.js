@@ -4,7 +4,7 @@ const axios = require('axios')
 const pSeries = require('p-series')
 const pMemoize = require('p-memoize')
 
-const { map, reduce, uniq, filter } = require('lodash')
+const { map, reduce, uniq, filter, chunk } = require('lodash')
 
 const LANGUAGES = Object.freeze(['en'])
 
@@ -99,6 +99,12 @@ const storeFile = (name, content) => {
   return fs.writeFile(fileName, JSON.stringify(content))
 }
 
+const loadDetailsFromCollection = collection => {
+  return Promise.all(
+    map(collection, (data) => loadDetails(`${data.url}#${data.name}`))
+  )
+}
+
 console.time('ganerate:data')
 console.group('ganerate')
 console.log('Loading pokémon list')
@@ -109,9 +115,12 @@ const generateData = generation => {
   return loadSpecies(generation.id)
     .then(result => {
       console.log('Loading pokémon data')
-      return Promise.all(
-        map(result, (data) => loadDetails(`${data.url}#${data.name}`))
-      )
+      const lists = map(chunk(result, 20), col => () => loadDetailsFromCollection(col))
+
+      return pSeries(lists)
+    })
+    .then(results => {
+      return results.flatMap(row => row)
     })
     .then(result => filter(result, Boolean))
     .then(result => extractData(result))
