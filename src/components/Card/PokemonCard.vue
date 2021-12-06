@@ -1,7 +1,7 @@
 <script>
 import { get } from 'lodash-es'
 import Types from './Types'
-const CDN = 'https://images.weserv.nl/?url=img.pokemondb.net'
+const CDN = 'https://images.weserv.nl/?url=media.githubusercontent.com/media/vinicius73/pokemon-image-collection/master/images'
 
 export default {
   name: 'PokemonImage',
@@ -40,16 +40,19 @@ export default {
     key () {
       return this.pokemon.name
     },
+    id () {
+      return this.pokemon.id
+    },
     title () {
       return this.visible
         ? this.name
         : 'Who\'s that Pokémon?'
     },
     src () {
-      const { artwork, key } = this
+      const { artwork, id } = this
       return artwork
-        ? `${CDN}/artwork/${key}.jpg`
-        : `${CDN}/sprites/home/normal/${key}.png`
+        ? `${CDN}/${id}.webp`
+        : `${CDN}/${id}.webp`
     }
   }
 }

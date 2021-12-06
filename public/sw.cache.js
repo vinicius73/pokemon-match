@@ -1,4 +1,4 @@
-const IMG_CDN = 'https://images.weserv.nl/?url=img.pokemondb.net'
+const IMG_CDN = 'https://images.weserv.nl/?url=media.githubusercontent.com/media/vinicius73/pokemon-image-collection/master/images'
 const IMAGE_CACHE_NAME = 'pokemon-images'
 const CDN_CACHE_NAME = 'cdn'
 
@@ -38,9 +38,9 @@ const postMessage = (client, data) => {
   client.postMessage(data)
 }
 
-const cachePokemonImages = async names => {
-  const data = names.map(name => {
-    return `${IMG_CDN}/sprites/home/normal/${name}.png`
+const cachePokemonImages = async ids => {
+  const data = ids.map(id => {
+    return `${IMG_CDN}/${id}.webp`
   })
 
   console.log('Caching pokémon images...')

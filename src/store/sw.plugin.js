@@ -57,7 +57,7 @@ export default async (store) => {
         .controller
         .postMessage({
           action: CACHE_CMD,
-          data: map(list, 'name')
+          data: map(list, 'id')
         })
     } catch (err) {
       console.warn(err)

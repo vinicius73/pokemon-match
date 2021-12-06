@@ -2,7 +2,7 @@ import { map, flatten, uniqBy } from 'lodash-es'
 import { onIdle } from '@/plugins/on-idle'
 
 const GENERATIONS = Object.freeze(
-  ['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'vii']
+  ['i', 'ii', 'iii', 'iv', 'v', 'vi']
 )
 
 function freeze (list) {
