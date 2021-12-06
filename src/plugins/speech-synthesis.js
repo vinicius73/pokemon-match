@@ -22,6 +22,7 @@ const speak = async (text) => {
   }
 
   const utterThis = new SpeechSynthesisUtterance(text)
+  utterThis.lang = 'en-US'
 
   return new Promise((resolve, reject) => {
     utterThis.onend = () => {
@@ -34,7 +35,7 @@ const speak = async (text) => {
     // utterThis.voice = synth.
 
     utterThis.pitch = 1
-    utterThis.rate = 0.9
+    utterThis.rate = 0.75
 
     synth.speak(utterThis)
   })
